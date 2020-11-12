@@ -60,12 +60,8 @@ paths:
               driverslicensenr: 221004
               status: ACTIVE
       responses:
-        '200':
-          description: the created user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserDTO'
+        '201':
+          $ref: '#/components/responses/Created'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -130,6 +126,16 @@ paths:
 
 components:
   responses:
+    Created:
+      description: created with success
+      content:
+        application/json:
+          schema:
+            type: integer
+            properties:
+              id:
+                type: integer
+                example: 4
     NotFound:
       description: not found
     Unauthorized:

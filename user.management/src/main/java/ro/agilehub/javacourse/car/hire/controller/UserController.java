@@ -1,7 +1,10 @@
 package ro.agilehub.javacourse.car.hire.controller;
 
+import io.swagger.models.auth.In;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import ro.agilehub.javacourse.car.hire.api.model.InlineResponse201;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.UserApi;
 import ro.agilehub.javacourse.car.hire.exception.NotFoundException;
@@ -17,10 +20,11 @@ public class UserController implements UserApi {
     ArrayList<UserDTO> usersList = new ArrayList<>();
 
     @Override
-    public ResponseEntity<UserDTO> addUser(@Valid UserDTO userDTO) {
-        userDTO.setId(usersList.size() + 1);
+    public ResponseEntity<Integer> addUser(@Valid UserDTO userDTO) {
+        var id = usersList.size() + 1;
+        userDTO.setId(id);
         usersList.add(userDTO);
-        return ResponseEntity.ok(userDTO);
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @Override

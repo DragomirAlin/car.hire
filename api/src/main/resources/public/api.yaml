@@ -14,6 +14,8 @@ servers:
 tags:
   - name: user
     description: User resource endpoint
+  - name: fleet
+    description: Fleet management resource endpoint
 paths:
   /user:
     get:
@@ -112,11 +114,8 @@ paths:
           schema:
             type: integer
             format: int32
-        - in: body
-          name: JsonPatch
-          required: true
-          schema:
-            $ref: "#/components/schemas/PatchRequest"
+      requestBody:
+        $ref: '#/components/requestBodies/PatchBody'
       responses:
         '200':
           description: success
@@ -149,6 +148,87 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+  /fleet:
+    get:
+      tags:
+        - fleet
+      summary: get all cars details
+      description: returns a list of all cars details, without any filtering
+      operationId: getCars
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FleetDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - fleet
+      summary: add a new car
+      description: adds a new car and returns it
+      operationId: addCars
+      requestBody:
+        description: The data of the car to insert.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FleetDTO'
+            example:
+              make: test
+              model: Dacia
+              year: 2019
+              mileage: 120031
+              fuel: Diesel
+              status: ACTIVE
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /fleet/{id}:
+      get:
+        tags:
+          - fleet
+        summary: get a fleet
+        description: returns the details for a user, based on id
+        operationId: getCar
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: integer
+              format: int32
+        responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FleetDTO'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/ServerError'
 
 components:
   responses:
@@ -181,7 +261,44 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorDTO'
 
+  requestBodies:
+    PatchBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatchRequest'
+
   schemas:
+    PatchRequest:
+      type: array
+      items:
+        $ref: "#/components/schemas/PatchDocument"
+    PatchDocument:
+      type: object
+      description: A JSONPatch document as defined by RFC 6902
+      required:
+        - "op"
+        - "path"
+      properties:
+        op:
+          type: string
+          description: The operation to be performed
+          enum:
+            - "add"
+            - "remove"
+            - "replace"
+            - "move"
+            - "copy"
+            - "test"
+        path:
+          type: integer
+          description: A JSON-Pointer
+        value:
+          type: object
+          description: The value to be used within the operations.
+        from:
+          type: string
+          description: A string containing a JSON Pointer value.
     ValidationDTO:
       type: object
       properties:
@@ -232,33 +349,32 @@ components:
           enum:
             - ACTIVE
             - DELETED
-    PatchRequest:
-      type: array
-      items:
-        $ref: "#/components/schemas/PatchDocument"
-    PatchDocument:
-      description: A JSONPatch document as defined by RFC 6902
-      required:
-        - "op"
-        - "path"
+    FleetDTO:
+      type: object
       properties:
-        op:
-          type: string
-          description: The operation to be performed
-          enum:
-            - "add"
-            - "remove"
-            - "replace"
-            - "move"
-            - "copy"
-            - "test"
-        path:
+        id:
           type: integer
-          description: A JSON-Pointer
-        value:
-          type: object
-          description: The value to be used within the operations.
-        from:
+          format: int32
+          description: car id
+        make:
           type: string
-          description: A string containing a JSON Pointer value.
+          description: make param
+        model:
+          type: string
+          description: model of the car
+        year:
+          type: integer
+          description: year of manufacture of the car
+        mileage:
+          type: integer
+          description: car mileage
+        fuel:
+          type: string
+          description: type of fuel
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - DELETED
+
 

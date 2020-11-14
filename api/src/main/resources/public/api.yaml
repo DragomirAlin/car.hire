@@ -100,7 +100,6 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-
     patch:
       tags:
         - user
@@ -115,7 +114,10 @@ paths:
             type: integer
             format: int32
       requestBody:
-        $ref: '#/components/requestBodies/PatchBody'
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/requestBodies/JsonPatch'
       responses:
         '200':
           description: success
@@ -123,7 +125,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserDTO'
-
     delete:
       tags:
         - user
@@ -148,6 +149,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /fleet:
     get:
       tags:
@@ -205,7 +207,7 @@ paths:
         tags:
           - fleet
         summary: get a fleet
-        description: returns the details for a user, based on id
+        description: returns the details for an user, based on id
         operationId: getCar
         parameters:
           - in: path
@@ -221,6 +223,55 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/FleetDTO'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/ServerError'
+      patch:
+        tags:
+          - car
+        summary: update car
+        description: update car
+        operationId: updateCar
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: integer
+              format: int32
+        requestBody:
+          content:
+            application/json-patch+json:
+              schema:
+                $ref: '#/components/requestBodies/JsonPatch'
+        responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/FleetDTO'
+      delete:
+        tags:
+          - car
+        summary: removes a car
+        description: deletes a car identified by id
+        operationId: removeCar
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: integer
+              format: int32
+        responses:
+          '200':
+            description: success
           '400':
             $ref: '#/components/responses/BadRequest'
           '401':
@@ -262,18 +313,17 @@ components:
             $ref: '#/components/schemas/ErrorDTO'
 
   requestBodies:
-    PatchBody:
+    JsonPatch:
       content:
-        application/json:
+        application/json-patch+json:
           schema:
             $ref: '#/components/schemas/PatchRequest'
 
   schemas:
     PatchRequest:
-      type: array
       items:
-        $ref: "#/components/schemas/PatchDocument"
-    PatchDocument:
+        $ref: "#/components/schemas/JsonPatch"
+    JsonPatch:
       type: object
       description: A JSONPatch document as defined by RFC 6902
       required:
@@ -376,5 +426,6 @@ components:
           enum:
             - ACTIVE
             - DELETED
+    
 
 

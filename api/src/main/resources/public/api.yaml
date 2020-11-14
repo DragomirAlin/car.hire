@@ -99,6 +99,32 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+    patch:
+      tags:
+        - user
+      summary: update user
+      description: update user
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: body
+          name: JsonPatch
+          required: true
+          schema:
+            $ref: "#/components/schemas/PatchRequest"
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+
     delete:
       tags:
         - user
@@ -206,4 +232,33 @@ components:
           enum:
             - ACTIVE
             - DELETED
+    PatchRequest:
+      type: array
+      items:
+        $ref: "#/components/schemas/PatchDocument"
+    PatchDocument:
+      description: A JSONPatch document as defined by RFC 6902
+      required:
+        - "op"
+        - "path"
+      properties:
+        op:
+          type: string
+          description: The operation to be performed
+          enum:
+            - "add"
+            - "remove"
+            - "replace"
+            - "move"
+            - "copy"
+            - "test"
+        path:
+          type: integer
+          description: A JSON-Pointer
+        value:
+          type: object
+          description: The value to be used within the operations.
+        from:
+          type: string
+          description: A string containing a JSON Pointer value.
 

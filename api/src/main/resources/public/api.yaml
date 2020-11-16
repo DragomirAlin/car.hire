@@ -116,10 +116,7 @@ paths:
             type: integer
             format: int32
       requestBody:
-        content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/requestBodies/JsonPatch'
+        $ref: '#/components/requestBodies/PatchBody'
       responses:
         '200':
           description: success
@@ -167,7 +164,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FleetDTO'
+                  $ref: '#/components/schemas/CarDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -186,7 +183,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FleetDTO'
+              $ref: '#/components/schemas/CarDTO'
             example:
               make: test
               model: Dacia
@@ -205,83 +202,80 @@ paths:
           $ref: '#/components/responses/ServerError'
 
   /fleet/{id}:
-      get:
-        tags:
-          - fleet
-        summary: get a fleet
-        description: returns the details for an user, based on id
-        operationId: getCar
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: integer
-              format: int32
-        responses:
-          '200':
-            description: success
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/FleetDTO'
-          '400':
-            $ref: '#/components/responses/BadRequest'
-          '401':
-            $ref: '#/components/responses/Unauthorized'
-          '404':
-            $ref: '#/components/responses/NotFound'
-          '500':
-            $ref: '#/components/responses/ServerError'
-      patch:
-        tags:
-          - fleet
-        summary: update car
-        description: update car
-        operationId: updateCar
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: integer
-              format: int32
-        requestBody:
+    get:
+      tags:
+        - fleet
+      summary: get a fleet
+      description: returns the details for an user, based on id
+      operationId: getCar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: success
           content:
-            application/json-patch+json:
+            application/json:
               schema:
-                $ref: '#/components/requestBodies/JsonPatch'
-        responses:
-          '200':
-            description: success
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/FleetDTO'
-      delete:
-        tags:
-          - fleet
-        summary: remove a car
-        description: delete a car identified by id
-        operationId: removeCar
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: integer
-              format: int32
-        responses:
-          '200':
-            description: success
-          '400':
-            $ref: '#/components/responses/BadRequest'
-          '401':
-            $ref: '#/components/responses/Unauthorized'
-          '404':
-            $ref: '#/components/responses/NotFound'
-          '500':
-            $ref: '#/components/responses/ServerError'
+                $ref: '#/components/schemas/CarDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - fleet
+      summary: update car
+      description: update car
+      operationId: updateCar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        $ref: '#/components/requestBodies/PatchBody'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarDTO'
+    delete:
+      tags:
+        - fleet
+      summary: remove a car
+      description: delete a car identified by id
+      operationId: removeCar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /rent:
     get:
       tags:
@@ -311,19 +305,12 @@ paths:
       description: add a new rent and returns it
       operationId: addRent
       requestBody:
-        description: The data of the car to insert.
+        description: The data of the rent to insert.
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FleetDTO'
-            example:
-              make: test
-              model: Dacia
-              year: 2019
-              mileage: 120031
-              fuel: Diesel
-              status: ACTIVE
+              $ref: '#/components/schemas/RentDTO'
       responses:
         '201':
           $ref: '#/components/responses/Created'
@@ -335,83 +322,80 @@ paths:
           $ref: '#/components/responses/ServerError'
 
   /rent/{id}:
-      get:
-        tags:
-          - rent
-        summary: get a rent
-        description: return the details for a rent, based on id
-        operationId: getRent
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: integer
-              format: int32
-        responses:
-          '200':
-            description: success
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/RentDTO'
-          '400':
-            $ref: '#/components/responses/BadRequest'
-          '401':
-            $ref: '#/components/responses/Unauthorized'
-          '404':
-            $ref: '#/components/responses/NotFound'
-          '500':
-            $ref: '#/components/responses/ServerError'
-      patch:
-        tags:
-          - rent
-        summary: update rent
-        description: update rent
-        operationId: updateRent
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: integer
-              format: int32
-        requestBody:
+    get:
+      tags:
+        - rent
+      summary: get a rent
+      description: return the details for a rent, based on id
+      operationId: getRent
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: success
           content:
-            application/json-patch+json:
+            application/json:
               schema:
-                $ref: '#/components/requestBodies/JsonPatch'
-        responses:
-          '200':
-            description: success
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/FleetDTO'
-      delete:
-        tags:
-          - rent
-        summary: remove a rent
-        description: delete a rent identified by id
-        operationId: removeRent
-        parameters:
-          - in: path
-            name: id
-            required: true
-            schema:
-              type: integer
-              format: int32
-        responses:
-          '200':
-            description: success
-          '400':
-            $ref: '#/components/responses/BadRequest'
-          '401':
-            $ref: '#/components/responses/Unauthorized'
-          '404':
-            $ref: '#/components/responses/NotFound'
-          '500':
-            $ref: '#/components/responses/ServerError'
+                $ref: '#/components/schemas/RentDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - rent
+      summary: update rent
+      description: update rent
+      operationId: updateRent
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        $ref: '#/components/requestBodies/PatchBody'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentDTO'
+    delete:
+      tags:
+        - rent
+      summary: remove a rent
+      description: delete a rent identified by id
+      operationId: removeRent
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
 components:
   responses:
@@ -445,35 +429,40 @@ components:
             $ref: '#/components/schemas/ErrorDTO'
 
   requestBodies:
-    JsonPatch:
+    PatchBody:
+      description: A message in JsonPatch format
+      required: true
       content:
         application/json-patch+json:
           schema:
-            $ref: '#/components/schemas/PatchRequest'
+            $ref: '#/components/schemas/PatchBody'
 
   schemas:
-    PatchRequest:
+    PatchBody:
+      type: array
       items:
-        $ref: "#/components/schemas/JsonPatch"
-    JsonPatch:
+        $ref: '#/components/schemas/PatchDocument'
+
+    PatchDocument:
       type: object
-      description: A JSONPatch document as defined by RFC 6902
+      description: A JSONPatch document as defined by RFC 6902.
       required:
-        - "op"
-        - "path"
+        - 'op'
+        - 'path'
+        - 'value'
       properties:
         op:
           type: string
           description: The operation to be performed
           enum:
-            - "add"
-            - "remove"
-            - "replace"
-            - "move"
-            - "copy"
-            - "test"
+            - 'add'
+            - 'remove'
+            - 'replace'
+            - 'move'
+            - 'copy'
+            - 'test'
         path:
-          type: integer
+          type: string
           description: A JSON-Pointer
         value:
           type: object
@@ -481,6 +470,7 @@ components:
         from:
           type: string
           description: A string containing a JSON Pointer value.
+
     ValidationDTO:
       type: object
       properties:
@@ -509,6 +499,7 @@ components:
           description: email of the user
         password:
           type: string
+          format: password
           description: password of the user
         username:
           type: string
@@ -528,10 +519,8 @@ components:
           description: driver`s license number of the user
         status:
           type: string
-          enum:
-            - ACTIVE
-            - DELETED
-    FleetDTO:
+          enum: [ACTIVE, DELETED]
+    CarDTO:
       type: object
       properties:
         id:
@@ -546,18 +535,20 @@ components:
           description: model of the car
         year:
           type: integer
+          format: int32
           description: year of manufacture of the car
         mileage:
           type: integer
+          format: int32
           description: car mileage
         fuel:
           type: string
           description: type of fuel
+        car:
+          type: string
         status:
           type: string
-          enum:
-            - ACTIVE
-            - DELETED
+          enum: [ACTIVE, DELETED]
     RentDTO:
       type: object
       properties:
@@ -574,18 +565,16 @@ components:
           format: int32
           description: car id
         startRent:
-         type: string
-         format: date-time
-         description: start date and time
-         example: "2020-11-14T12:30:00Z"
+          type: string
+          format: date-time
+          description: start date and time
+          example: "2020-11-14T12:30:00Z"
         endRent:
           format: date-time
           description: end date and time
           example: "2020-11-19T12:30:00Z"
         status:
           type: string
-          enum:
-            - ACTIVE
-            - DELETED
+          enum: [ACTIVE, DELETED]
 
 

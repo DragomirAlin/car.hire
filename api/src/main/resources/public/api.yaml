@@ -70,6 +70,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -98,6 +100,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -124,6 +128,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     delete:
       tags:
         - user
@@ -143,6 +157,8 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
@@ -169,6 +185,10 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
     post:
@@ -198,9 +218,45 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-
+  /fleet/{status}:
+    get:
+      tags:
+        - fleet
+      summary: get all cars details by status
+      description: return a list of all cars details by cars, without any filtering
+      operationId: getCarsByStatus
+      parameters:
+        - in: path
+          name: status
+          required: true
+          schema:
+            type: enum
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                exemple: ACTIVE
+                items:
+                  $ref: '#/components/schemas/CarDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /fleet/{id}:
     get:
       tags:
@@ -225,6 +281,8 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
@@ -252,6 +310,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CarDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     delete:
       tags:
         - fleet
@@ -272,17 +340,19 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-  /rent:
+  /rental:
     get:
       tags:
         - rent
-      summary: get all rents details
-      description: returns a list of all rents, without any filtering
-      operationId: getRents
+      summary: get all rentals details
+      description: returns a list of all rentals, without any filtering
+      operationId: getRentals
       responses:
         '200':
           description: success
@@ -291,26 +361,30 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/RentDTO'
+                  $ref: '#/components/schemas/RentalDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
     post:
       tags:
         - rent
-      summary: add a new rent
-      description: add a new rent and returns it
-      operationId: addRent
+      summary: add a new rental
+      description: add a new rental and returns it
+      operationId: addRental
       requestBody:
-        description: The data of the rent to insert.
+        description: The data of the rental to insert.
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RentDTO'
+              $ref: '#/components/schemas/RentalDTO'
       responses:
         '201':
           $ref: '#/components/responses/Created'
@@ -318,16 +392,20 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /rent/{id}:
+  /rental/{id}:
     get:
       tags:
         - rent
-      summary: get a rent
-      description: return the details for a rent, based on id
-      operationId: getRent
+      summary: get a rental
+      description: return the details for a rental, based on id
+      operationId: getRental
       parameters:
         - in: path
           name: id
@@ -341,10 +419,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RentDTO'
+                $ref: '#/components/schemas/RentalDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
@@ -353,9 +433,9 @@ paths:
     patch:
       tags:
         - rent
-      summary: update rent
-      description: update rent
-      operationId: updateRent
+      summary: update rental
+      description: update rental
+      operationId: updateRental
       parameters:
         - in: path
           name: id
@@ -371,13 +451,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RentDTO'
+                $ref: '#/components/schemas/RentalDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     delete:
       tags:
         - rent
-      summary: remove a rent
-      description: delete a rent identified by id
-      operationId: removeRent
+      summary: remove a rental
+      description: delete a rental identified by id
+      operationId: cancelRental
       parameters:
         - in: path
           name: id
@@ -391,6 +481,8 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
@@ -520,6 +612,7 @@ components:
         status:
           type: string
           enum: [ACTIVE, DELETED]
+          description: the status of the user
     CarDTO:
       type: object
       properties:
@@ -549,7 +642,9 @@ components:
         status:
           type: string
           enum: [ACTIVE, DELETED]
-    RentDTO:
+          description: the status of the car
+
+    RentalDTO:
       type: object
       properties:
         id:
@@ -576,5 +671,7 @@ components:
         status:
           type: string
           enum: [ACTIVE, DELETED]
+          description: the status of the rental
+
 
 

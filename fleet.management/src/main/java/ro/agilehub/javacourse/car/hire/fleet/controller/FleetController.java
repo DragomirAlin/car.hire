@@ -35,6 +35,11 @@ public class FleetController implements FleetApi {
     }
 
     @Override
+    public ResponseEntity<List<CarDTO>> getCarsByStatus(String status) {
+        return ResponseEntity.ok(fleetService.getCarsByStatus(status));
+    }
+
+    @Override
     public ResponseEntity<Void> removeCar(Integer id) {
         fleetService.removeCar(id);
         return ResponseEntity.ok().build();
@@ -42,6 +47,6 @@ public class FleetController implements FleetApi {
 
     @Override
     public ResponseEntity<CarDTO> updateCar(Integer id, @Valid List<PatchDocument> patchDocument) {
-        return null;
+        return ResponseEntity.ok(fleetService.updateCar(id, patchDocument));
     }
 }

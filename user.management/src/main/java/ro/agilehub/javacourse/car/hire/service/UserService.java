@@ -2,6 +2,7 @@ package ro.agilehub.javacourse.car.hire.service;
 
 import com.github.fge.jsonpatch.JsonPatchException;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 
 import java.util.List;
@@ -13,6 +14,6 @@ public interface UserService {
     void removeUser(Integer id);
     UserDTO getUser(Integer id);
     List<UserDTO> getUsers();
-    UserDTO updateUser(Integer id, JsonPatch jsonPatch) throws JsonPatchException;
+    UserDTO updateUser(Integer id, List<PatchDocument> patchDocument);
 
 }

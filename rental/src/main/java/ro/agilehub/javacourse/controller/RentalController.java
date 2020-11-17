@@ -45,6 +45,6 @@ public class RentalController implements RentApi {
 
     @Override
     public ResponseEntity<RentDTO> updateRent(Integer id, @Valid List<PatchDocument> patchDocument) {
-        return null;
+        return ResponseEntity.ok(rentalService.updateRent(id, patchDocument));
     }
 }

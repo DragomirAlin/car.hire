@@ -4,10 +4,12 @@ import org.springframework.stereotype.Service;
 import ro.agilehub.javacourse.car.hire.api.model.CarDTO;
 import ro.agilehub.javacourse.car.hire.api.model.FleetDTO;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class FleetServiceImpl implements FleetService {
@@ -36,12 +38,17 @@ public class FleetServiceImpl implements FleetService {
     }
 
     @Override
+    public List<CarDTO> getCarsByStatus(String status) {
+        return carsList.stream().filter(carDTO -> carDTO.getStatus().getValue().equals(status)).collect(Collectors.toList());
+    }
+
+    @Override
     public List<CarDTO> getCars() {
         return carsList;
     }
 
     @Override
-    public CarDTO updateCar(Integer id, JsonPatch jsonPatch) {
-        return null;
+    public CarDTO updateCar(Integer id, List<PatchDocument> patchDocument) {
+        return getCar(id);
     }
 }

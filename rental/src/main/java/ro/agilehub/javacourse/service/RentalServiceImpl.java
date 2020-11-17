@@ -3,6 +3,7 @@ package ro.agilehub.javacourse.service;
 import org.springframework.stereotype.Service;
 import ro.agilehub.javacourse.car.hire.api.model.CarDTO;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.RentDTO;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public RentDTO updateRent(Integer id, JsonPatch jsonPatch) {
-        return null;
+    public RentDTO updateRent(Integer id, List<PatchDocument> patchDocument) {
+        return getRent(id);
     }
 }

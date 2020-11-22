@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface RentalService {
 
-    int addRent(RentDTO rentDTO);
+    int addRent(RentDO rentDO);
     void removeRent(Integer id);
-    RentDTO getRent(Integer id);
-    List<RentDTO> getRents();
-    RentDTO updateRent(Integer id, List<PatchDocument> patchDocument);
+    RentDO getRent(Integer id);
+    List<RentDO> getRents();
+    RentDO updateRent(Integer id, List<PatchDocument> patchDocument);
 }

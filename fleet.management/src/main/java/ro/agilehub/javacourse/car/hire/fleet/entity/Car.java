@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.entity;
+package ro.agilehub.javacourse.car.hire.fleet.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,18 +10,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "user")
-public class User {
+@Document(collection = "car")
+public class Car {
 
     @Id
     private ObjectId _id;
-    private String email;
-    private String password;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String countryOfResidence;
-    private long driverLicenseNumber;
+    private String make;
+    private String model;
+    private int year;
+    private int mileage;
+    private String fuel;
     private Status status;
 
 

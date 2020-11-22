@@ -19,34 +19,31 @@ public class FleetController implements FleetApi {
 
     @Override
     public ResponseEntity<Integer> addCar(@Valid CarDTO carDTO) {
-        var id = fleetService.addCar(carDTO);
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return null;
     }
 
     @Override
     public ResponseEntity<CarDTO> getCar(Integer id) {
-        CarDTO carDTO = fleetService.getCar(id);
-        return ResponseEntity.ok(carDTO);
+        return null;
     }
 
     @Override
     public ResponseEntity<List<CarDTO>> getCars() {
-        return ResponseEntity.ok(fleetService.getCars());
+        return null;
     }
 
     @Override
     public ResponseEntity<List<CarDTO>> getCarsByStatus(String status) {
-        return ResponseEntity.ok(fleetService.getCarsByStatus(status));
+        return null;
     }
 
     @Override
     public ResponseEntity<Void> removeCar(Integer id) {
-        fleetService.removeCar(id);
-        return ResponseEntity.ok().build();
+        return null;
     }
 
     @Override
     public ResponseEntity<CarDTO> updateCar(Integer id, @Valid List<PatchDocument> patchDocument) {
-        return ResponseEntity.ok(fleetService.updateCar(id, patchDocument));
+        return null;
     }
 }

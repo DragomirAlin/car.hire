@@ -1,4 +1,5 @@
 package ro.agilehub.javacourse.car.hire.fleet.entity;
 
-public class Fleet {
+public enum Status {
+    ACTIVE, CANCELLED
 }

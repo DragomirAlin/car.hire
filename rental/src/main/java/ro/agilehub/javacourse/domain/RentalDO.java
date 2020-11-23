@@ -1,13 +1,13 @@
 package ro.agilehub.javacourse.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
 import ro.agilehub.javacourse.entity.Status;
 
 @Data
+@EqualsAndHashCode(of = "id")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RentalDO {

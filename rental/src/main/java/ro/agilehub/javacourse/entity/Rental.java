@@ -1,19 +1,19 @@
 package ro.agilehub.javacourse.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode(of = "_id")
 @Document(collection = "rental")
 public class Rental {
 
     @Id
+    @Field("_id")
     private ObjectId _id;
 
     private String user_id;

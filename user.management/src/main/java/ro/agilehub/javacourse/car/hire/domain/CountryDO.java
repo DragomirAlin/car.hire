@@ -1,10 +1,10 @@
 package ro.agilehub.javacourse.car.hire.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
+@EqualsAndHashCode(of = "id")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CountryDO {

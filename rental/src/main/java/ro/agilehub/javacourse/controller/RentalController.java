@@ -22,29 +22,26 @@ public class RentalController implements RentApi {
 
     @Override
     public ResponseEntity<Integer> addRent(@Valid RentDTO rentDTO) {
-        var id = rentalService.addRent(rentDTO);
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return null;
     }
 
     @Override
     public ResponseEntity<RentDTO> getRent(Integer id) {
-        RentDTO rentDTO = rentalService.getRent(id);
-        return ResponseEntity.ok(rentDTO);
+        return null;
     }
 
     @Override
     public ResponseEntity<List<RentDTO>> getRents() {
-        return ResponseEntity.ok(rentalService.getRents());
+        return null;
     }
 
     @Override
     public ResponseEntity<Void> removeRent(Integer id) {
-        rentalService.removeRent(id);
-        return ResponseEntity.ok().build();
+        return null;
     }
 
     @Override
     public ResponseEntity<RentDTO> updateRent(Integer id, @Valid List<PatchDocument> patchDocument) {
-        return ResponseEntity.ok(rentalService.updateRent(id, patchDocument));
+        return null;
     }
 }

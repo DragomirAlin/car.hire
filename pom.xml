@@ -32,6 +32,8 @@
         <springfox.version>3.0.0</springfox.version>
         <databind.nullable.version>0.2.1</databind.nullable.version>
         <spring-openapi.version>1.4.8</spring-openapi.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+
     </properties>
 
     <packaging>pom</packaging>
@@ -47,6 +49,18 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

@@ -1,47 +1,44 @@
 package ro.agilehub.javacourse.controller;
 
-import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
-import ro.agilehub.javacourse.car.hire.api.model.RentDTO;
-import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
-import ro.agilehub.javacourse.car.hire.api.specification.RentApi;
+import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
+import ro.agilehub.javacourse.car.hire.api.specification.RentalApi;
 import ro.agilehub.javacourse.service.RentalService;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class RentalController implements RentApi {
+public class RentalController implements RentalApi {
 
     @Autowired
     private RentalService rentalService;
 
     @Override
-    public ResponseEntity<Integer> addRent(@Valid RentDTO rentDTO) {
+    public ResponseEntity<Integer> addRental(@Valid RentalDTO rentalDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<RentDTO> getRent(Integer id) {
+    public ResponseEntity<Void> cancelRental(Integer id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<RentDTO>> getRents() {
+    public ResponseEntity<RentalDTO> getRental(Integer id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> removeRent(Integer id) {
+    public ResponseEntity<List<RentalDTO>> getRentals() {
         return null;
     }
 
     @Override
-    public ResponseEntity<RentDTO> updateRent(Integer id, @Valid List<PatchDocument> patchDocument) {
+    public ResponseEntity<RentalDTO> updateRental(Integer id, @Valid List<PatchDocument> patchDocument) {
         return null;
     }
 }

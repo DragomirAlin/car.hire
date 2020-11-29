@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.stereotype.Service;
-import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 
@@ -43,8 +42,8 @@ public class UserServiceStabImpl {
 
 
     public UserDTO updateUser(Integer id, List<PatchDocument> patchDocument) {
-      UserDTO userDTO = getUser(id);
-      return userDTO;
+        UserDTO userDTO = getUser(id);
+        return userDTO;
     }
 
     private UserDTO applyPatchToUser(com.github.fge.jsonpatch.JsonPatch patch, UserDTO targerUser) throws JsonPatchException, JsonProcessingException {
@@ -52,12 +51,6 @@ public class UserServiceStabImpl {
         return objectMapper.treeToValue(patched, UserDTO.class);
     }
 
-    private <T> T applyJson(JsonPatch jsonRequest, T targer, Class<T> clazz) throws JsonPatchException {
-        com.github.fge.jsonpatch.JsonPatch jsonPatch = objectMapper.convertValue(jsonRequest, com.github.fge.jsonpatch.JsonPatch.class);
-        JsonNode jsonNode = objectMapper.convertValue(targer, JsonNode.class);
-        jsonNode = jsonPatch.apply(jsonNode);
-        return objectMapper.convertValue(jsonNode, clazz);
 
-
-    }
 }
+

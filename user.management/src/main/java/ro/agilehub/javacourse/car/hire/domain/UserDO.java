@@ -1,8 +1,9 @@
 package ro.agilehub.javacourse.car.hire.domain;
 
 import lombok.*;
-import ro.agilehub.javacourse.car.hire.entity.Country;
 import ro.agilehub.javacourse.car.hire.entity.Status;
+import ro.agilehub.javacourse.car.hire.domain.CountryDO;
+
 
 @Data
 @EqualsAndHashCode(of = "id")
@@ -17,7 +18,8 @@ public class UserDO {
     private String username;
     private String firstName;
     private String lastName;
-    private Country countryOfResidence;
+    private String title;
+    private CountryDO countryOfResidence;
     private long driverLicenseNumber;
     private Status status;
 }

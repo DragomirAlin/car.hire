@@ -2,14 +2,20 @@ package ro.agilehub.javacourse.car.hire.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
+import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.UserApi;
+import ro.agilehub.javacourse.car.hire.domain.UserDO;
+import ro.agilehub.javacourse.car.hire.mapper.UserDTOMapper;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 
 @RestController
@@ -18,28 +24,41 @@ public class UserController implements UserApi {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDTOMapper mapper;
+
     @Override
-    public ResponseEntity<Integer> addUser(@Valid UserDTO userDTO) {
-        return null;
+    public ResponseEntity<String> addUser(@Valid UserDTO userDTO) {
+        var user_id = userService.addUser(userDTO);
+
+        return ResponseEntity.ok(user_id);
     }
 
     @Override
-    public ResponseEntity<UserDTO> getUser(Integer id) {
-        return null;
+    public ResponseEntity<UserResponseDTO> getUser(String id) {
+        var userResponseDTO = mapper.toUserResponseDTO(userService.findById(id));
+
+        return ResponseEntity.ok(userResponseDTO);
     }
 
     @Override
-    public ResponseEntity<List<UserDTO>> getUsers() {
-        return null;
+    public ResponseEntity<List<UserResponseDTO>> getUsers() {
+        var listUsersResponseDTO = userService.findAll()
+                .stream()
+                .map(mapper::toUserResponseDTO)
+                .collect(toList());
+
+        return ResponseEntity.ok(listUsersResponseDTO);
     }
 
     @Override
-    public ResponseEntity<Void> removeUser(Integer id) {
-        return null;
+    public ResponseEntity<Void> removeUser(String id) {
+        userService.removeUser(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<UserDTO> updateUser(Integer id, @Valid List<PatchDocument> patchDocument) {
+    public ResponseEntity<UserDTO> updateUser(String id, @Valid List<PatchDocument> patchDocument) {
         return null;
     }
 }

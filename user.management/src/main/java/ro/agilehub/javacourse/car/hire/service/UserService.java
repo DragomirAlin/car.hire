@@ -1,20 +1,22 @@
 package ro.agilehub.javacourse.car.hire.service;
 
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
+import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
+import ro.agilehub.javacourse.car.hire.entity.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    int addUser(UserDO userDO);
+    String addUser(UserDTO userDTO);
 
-    void removeUser(Integer id);
+    void removeUser(String id);
 
-    UserDO getUser(Integer id);
+    UserDO findById(String id);
 
-    List<UserDO> getUsers();
+    List<UserDO> findAll();
 
-    UserDO updateUser(Integer id, List<PatchDocument> patchDocument);
+    UserDO updateUser(String id, List<PatchDocument> patchDocument);
 
 }

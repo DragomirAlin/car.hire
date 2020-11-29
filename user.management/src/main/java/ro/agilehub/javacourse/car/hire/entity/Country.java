@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @EqualsAndHashCode(of = "_id")
-@Document(collation = "country")
+@Document(collection = "country")
 public class Country {
 
     @Id

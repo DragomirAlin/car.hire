@@ -20,9 +20,10 @@ public class User {
     private String username;
     private String firstName;
     private String lastName;
-    private String countryOfResidence;
+    private String title;
+    private String country;
     private long driverLicenseNumber;
-    private Status status;
+    private String status;
 
 
 }

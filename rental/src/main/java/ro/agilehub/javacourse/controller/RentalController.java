@@ -18,17 +18,17 @@ public class RentalController implements RentalApi {
     private RentalService rentalService;
 
     @Override
-    public ResponseEntity<Integer> addRental(@Valid RentalDTO rentalDTO) {
+    public ResponseEntity<String> addRental(@Valid RentalDTO rentalDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> cancelRental(Integer id) {
+    public ResponseEntity<Void> cancelRental(String id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<RentalDTO> getRental(Integer id) {
+    public ResponseEntity<RentalDTO> getRental(String id) {
         return null;
     }
 
@@ -38,7 +38,7 @@ public class RentalController implements RentalApi {
     }
 
     @Override
-    public ResponseEntity<RentalDTO> updateRental(Integer id, @Valid List<PatchDocument> patchDocument) {
+    public ResponseEntity<RentalDTO> updateRental(String id, @Valid List<PatchDocument> patchDocument) {
         return null;
     }
 }

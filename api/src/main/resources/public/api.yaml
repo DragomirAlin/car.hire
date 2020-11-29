@@ -34,7 +34,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserDTO'
+                  $ref: '#/components/schemas/UserResponseDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -63,6 +63,7 @@ paths:
               password: mypa$$w0rd!@$
               username: dragomiralin
               firstname: Dragomir
+              title: Employee
               lastname: Alin
               countryofresidence: Romania
               driverslicensenr: 221004
@@ -93,15 +94,14 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       responses:
         '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDTO'
+                $ref: '#/components/schemas/UserResponseDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -123,8 +123,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       requestBody:
         $ref: '#/components/requestBodies/PatchBody'
       responses:
@@ -155,8 +154,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       responses:
         '200':
           description: success
@@ -230,6 +228,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /fleet/status/{status}:
     get:
       tags:
@@ -262,6 +261,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /fleet/{id}:
     get:
       tags:
@@ -274,8 +274,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       responses:
         '200':
           description: success
@@ -304,8 +303,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       requestBody:
         $ref: '#/components/requestBodies/PatchBody'
       responses:
@@ -336,8 +334,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       responses:
         '200':
           description: success
@@ -351,6 +348,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /rental:
     get:
       tags:
@@ -416,8 +414,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       responses:
         '200':
           description: success
@@ -446,8 +443,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       requestBody:
         $ref: '#/components/requestBodies/PatchBody'
       responses:
@@ -478,8 +474,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
       responses:
         '200':
           description: success
@@ -501,11 +496,11 @@ components:
       content:
         application/json:
           schema:
-            type: integer
+            type: string
             properties:
               id:
-                type: integer
-                example: 4
+                type: string
+                example: 12fc2
     NotFound:
       description: not found
     Unauthorized:
@@ -584,6 +579,39 @@ components:
           type: string
         message:
           type: string
+    UserResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the user
+        email:
+          type: string
+          description: email of the user
+        username:
+          type: string
+          description: username of the user
+        firstname:
+          type: string
+          description: first name of the user
+        lastname:
+          type: string
+          description: last name of the user
+        countryofresidence:
+          type: string
+          description: country of residence of the user
+        title:
+          type: string
+          description: title of the user
+        driverslicensenr:
+          type: integer
+          format: int32
+          description: driver`s license number of the user
+        status:
+          type: string
+          enum: [ ACTIVE, CANCELLED ]
+          description: the status of the user
+
     UserDTO:
       type: object
       properties:
@@ -610,13 +638,16 @@ components:
         countryofresidence:
           type: string
           description: country of residence of the user
+        title:
+          type: string
+          description: title of the user
         driverslicensenr:
           type: integer
           format: int32
           description: driver`s license number of the user
         status:
           type: string
-          enum: [ACTIVE, DELETED]
+          enum: [ACTIVE, CANCELLED]
           description: the status of the user
     CarDTO:
       type: object
@@ -646,7 +677,7 @@ components:
           type: string
         status:
           type: string
-          enum: [ACTIVE, DELETED]
+          enum: [ACTIVE, CANCELLED]
           description: the status of the car
 
     RentalDTO:
@@ -675,5 +706,5 @@ components:
           example: "2020-11-19T12:30:00Z"
         status:
           type: string
-          enum: [ACTIVE, DELETED]
+          enum: [ACTIVE, CANCELLED]
           description: the status of the rental

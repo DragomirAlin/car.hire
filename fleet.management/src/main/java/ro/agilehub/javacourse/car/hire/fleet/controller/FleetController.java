@@ -18,12 +18,12 @@ public class FleetController implements FleetApi {
     private FleetService fleetService;
 
     @Override
-    public ResponseEntity<Integer> addCar(@Valid CarDTO carDTO) {
+    public ResponseEntity<String> addCar(@Valid CarDTO carDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<CarDTO> getCar(Integer id) {
+    public ResponseEntity<CarDTO> getCar(String id) {
         return null;
     }
 
@@ -38,12 +38,12 @@ public class FleetController implements FleetApi {
     }
 
     @Override
-    public ResponseEntity<Void> removeCar(Integer id) {
+    public ResponseEntity<Void> removeCar(String id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<CarDTO> updateCar(Integer id, @Valid List<PatchDocument> patchDocument) {
+    public ResponseEntity<CarDTO> updateCar(String id, @Valid List<PatchDocument> patchDocument) {
         return null;
     }
 }

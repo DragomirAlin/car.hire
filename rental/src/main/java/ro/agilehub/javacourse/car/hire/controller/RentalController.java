@@ -1,14 +1,18 @@
-package ro.agilehub.javacourse.controller;
+package ro.agilehub.javacourse.car.hire.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.RentalApi;
-import ro.agilehub.javacourse.mapper.RentalDTOMapper;
-import ro.agilehub.javacourse.service.RentalService;
+import ro.agilehub.javacourse.car.hire.domain.RentalDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
+import ro.agilehub.javacourse.car.hire.mapper.RentalDTOMapper;
+import ro.agilehub.javacourse.car.hire.service.RentalService;
+import ro.agilehub.javacourse.car.hire.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,6 +26,10 @@ public class RentalController implements RentalApi {
     private RentalService rentalService;
     @Autowired
     private RentalDTOMapper mapper;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FleetService fleetService;
 
     @Override
     public ResponseEntity<String> addRental(@Valid RentalDTO rentalDTO) {
@@ -54,7 +62,8 @@ public class RentalController implements RentalApi {
     }
 
     @Override
-    public ResponseEntity<RentalDTO> updateRental(String id, @Valid List<PatchDocument> patchDocument) {
+    public ResponseEntity<RentalDTO> updateRental(String id, @Valid JsonPatch jsonPatch) {
         return null;
     }
+
 }

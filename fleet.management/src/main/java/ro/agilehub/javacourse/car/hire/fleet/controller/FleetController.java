@@ -62,7 +62,7 @@ public class FleetController implements FleetApi {
     }
 
     @Override
-    public ResponseEntity<CarDTO> updateCar(String id, @Valid List<PatchDocument> patchDocument) {
+    public ResponseEntity<CarDTO> updateCar(String id, @Valid JsonPatch jsonPatch) {
         return null;
     }
 }

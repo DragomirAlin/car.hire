@@ -1,5 +1,12 @@
 package ro.agilehub.javacourse.car.hire.service.impl;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import io.swagger.v3.core.util.Json;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +22,8 @@ import ro.agilehub.javacourse.car.hire.repository.UserRepository;
 import ro.agilehub.javacourse.car.hire.mapper.UserDOMapper;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -30,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private UserDOMapper mapper;
     @Autowired
     private UserDTOMapper mapperDTO;
+
+    private ObjectMapper objectMapper;
 
     @Override
     public String addUser(UserDTO userDTO) {
@@ -67,9 +78,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDO updateUser(String id, List<PatchDocument> patchDocument) {
+    public UserDO updateUser(String id, @Valid ro.agilehub.javacourse.car.hire.api.model.JsonPatch jsonPatch) {
+        try {
+            User user = userRepository.findById(new ObjectId(id)).orElseThrow();
+            JsonNode jsonNode = objectMapper.readTree(jsonPatch);
+            JsonPatch jsonPatchs = JsonPatch.fromJson(jsonNode);
+            User userPatched = applyPatchToUser(jsonPatchs, user);
+            userRepository.save(userPatched);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JsonPatchException e) {
+            e.printStackTrace();
+        }
+        var userDO = map(userRepository.findById(new ObjectId(id)).orElseThrow());
+        return userDO;
+    }
 
-        return null;
+    private User applyPatchToUser(JsonPatch patch, User targetCustomer) throws JsonPatchException, JsonProcessingException {
+        JsonNode patched = patch.apply(objectMapper.convertValue(targetCustomer, JsonNode.class));
+        return objectMapper.treeToValue(patched, User.class);
     }
 
     private UserDO map(User user) {

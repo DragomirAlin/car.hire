@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.entity;
+package ro.agilehub.javacourse.car.hire.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

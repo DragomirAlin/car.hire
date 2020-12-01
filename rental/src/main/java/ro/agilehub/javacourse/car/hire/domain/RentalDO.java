@@ -1,9 +1,8 @@
-package ro.agilehub.javacourse.domain;
+package ro.agilehub.javacourse.car.hire.domain;
 
 import lombok.*;
-import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
-import ro.agilehub.javacourse.entity.Status;
+import ro.agilehub.javacourse.car.hire.entity.Status;
 
 @Data
 @EqualsAndHashCode(of = "id")

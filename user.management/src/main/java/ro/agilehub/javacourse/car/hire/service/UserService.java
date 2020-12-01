@@ -1,10 +1,12 @@
 package ro.agilehub.javacourse.car.hire.service;
 
+import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.entity.User;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface UserService {
@@ -17,6 +19,6 @@ public interface UserService {
 
     List<UserDO> findAll();
 
-    UserDO updateUser(String id, List<PatchDocument> patchDocument);
+    UserDO updateUser(String id, @Valid JsonPatch jsonPatch);
 
 }

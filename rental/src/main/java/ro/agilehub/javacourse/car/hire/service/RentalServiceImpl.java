@@ -1,33 +1,40 @@
-package ro.agilehub.javacourse.service;
+package ro.agilehub.javacourse.car.hire.service;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
 import ro.agilehub.javacourse.car.hire.fleet.repository.FleetRepository;
+import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
 import ro.agilehub.javacourse.car.hire.repository.UserRepository;
-import ro.agilehub.javacourse.domain.RentalDO;
-import ro.agilehub.javacourse.entity.Rental;
-import ro.agilehub.javacourse.mapper.RentalDOMapper;
-import ro.agilehub.javacourse.mapper.RentalDTOMapper;
-import ro.agilehub.javacourse.repository.RentalRepository;
+import ro.agilehub.javacourse.car.hire.domain.RentalDO;
+import ro.agilehub.javacourse.car.hire.entity.Rental;
+import ro.agilehub.javacourse.car.hire.mapper.RentalDOMapper;
+import ro.agilehub.javacourse.car.hire.mapper.RentalDTOMapper;
+import ro.agilehub.javacourse.car.hire.repository.RentalRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Service
 public class RentalServiceImpl implements RentalService {
 
     @Autowired
     private RentalRepository rentalRepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private FleetRepository fleetRepository;
-    @Autowired
     private RentalDOMapper mapper;
     @Autowired
     private RentalDTOMapper mapperDTO;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FleetService fleetService;
+    @Autowired
+    private RentalDTOMapper rentalDTOMapper;
 
 
     @Override
@@ -68,30 +75,22 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public RentalDO updateRent(String id, List<PatchDocument> patchDocument) {
+    public RentalDO updateRent(String id, @Valid JsonPatch jsonPatch) {
         return null;
     }
 
     private RentalDO map(Rental rental) {
-        var car = fleetRepository
-                .findById(new ObjectId(rental.getCar_id()))
-                .orElseThrow();
-        var user = userRepository
-                .findById(new ObjectId(rental.getUser_id()))
-                .orElseThrow();
+        var carDO = fleetService.findById(rental.getCar_id());
+        var userDO = userService.findById(rental.getUser_id());
 
-        return mapper.toRentalDO(rental, car, user);
+        return mapper.toRentalDO(rental, carDO, userDO);
     }
 
     private RentalDO mapDTO(RentalDTO rentalDTO) {
-        var car = fleetRepository
-                .findById(new ObjectId(rentalDTO.getCar()))
-                .orElseThrow();
-        var user = userRepository
-                .findById(new ObjectId(rentalDTO.getUser()))
-                .orElseThrow();
+        var carDO = fleetService.findById(rentalDTO.getCar());
+        var userDO = userService.findById(rentalDTO.getUser());
 
-        return mapperDTO.toRentalDO(rentalDTO, car, user);
+        return mapperDTO.toRentalDO(rentalDTO, carDO, userDO);
     }
 
 

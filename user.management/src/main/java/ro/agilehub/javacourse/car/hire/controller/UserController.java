@@ -3,7 +3,7 @@ package ro.agilehub.javacourse.car.hire.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
+import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.UserApi;
@@ -56,7 +56,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserDTO> updateUser(String id, @Valid List<PatchDocument> patchDocument) {
+    public ResponseEntity<UserDTO> updateUser(String id, @Valid JsonPatch patchDocument) {
         return null;
     }
 

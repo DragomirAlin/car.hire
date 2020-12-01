@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.agilehub.javacourse.car.hire.api.model.CarDTO;
+import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
@@ -13,6 +14,7 @@ import ro.agilehub.javacourse.car.hire.fleet.repository.FleetRepository;
 import ro.agilehub.javacourse.car.hire.fleet.repository.MakeRepository;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +69,7 @@ public class FleetServiceImpl implements FleetService {
     }
 
     @Override
-    public CarDO updateCar(String id, List<PatchDocument> patchDocument) {
+    public CarDO updateCar(String id, @Valid JsonPatch jsonPatch) {
         return null;
     }
 

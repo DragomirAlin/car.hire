@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.service;
+package ro.agilehub.javacourse.car.hire.service.impl;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +10,13 @@ import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.entity.Country;
 import ro.agilehub.javacourse.car.hire.entity.Status;
 import ro.agilehub.javacourse.car.hire.entity.User;
+import ro.agilehub.javacourse.car.hire.exception.NotFoundException;
 import ro.agilehub.javacourse.car.hire.mapper.CountryDOMapper;
 import ro.agilehub.javacourse.car.hire.mapper.UserDTOMapper;
 import ro.agilehub.javacourse.car.hire.repository.CountryRepository;
 import ro.agilehub.javacourse.car.hire.repository.UserRepository;
 import ro.agilehub.javacourse.car.hire.mapper.UserDOMapper;
+import ro.agilehub.javacourse.car.hire.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +28,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private CountryRepository countryRepository;
-
     @Autowired
     private UserDOMapper mapper;
-
     @Autowired
     private UserDTOMapper mapperDTO;
 
@@ -45,14 +44,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUser(String id) {
-        userRepository.deleteById(new ObjectId(id));
+        var user = userRepository.findById(new ObjectId(id))
+                .orElseThrow(() -> new NotFoundException(id));
+
+        userRepository.delete(user);
     }
 
     @Override
     public UserDO findById(String id) {
         return userRepository.findById(new ObjectId(id))
                 .map(this::map)
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     @Override

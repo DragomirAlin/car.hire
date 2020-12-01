@@ -21,23 +21,23 @@ public class UserController implements UserApi {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private UserDTOMapper mapper;
 
+
     @Override
     public ResponseEntity<String> addUser(@Valid UserDTO userDTO) {
-        var user_id = userService.addUser(userDTO);
-        return ResponseEntity.ok(user_id);
+        var userID = userService.addUser(userDTO);
+        return ResponseEntity.ok(userID);
     }
 
-//    @Override
-//    public ResponseEntity<UserResponseDTO> getUser(String id) {
-//        var userResponseDTO = mapper.toUserResponseDTO(userService.findById(id));
-//
-//        return ResponseEntity.ok(userResponseDTO);
-//    }
-//
+    @Override
+    public ResponseEntity<UserResponseDTO> getUser(String id) {
+        var userResponseDTO = mapper.toUserResponseDTO(userService.findById(id));
+
+        return ResponseEntity.ok(userResponseDTO);
+    }
+
     @Override
     public ResponseEntity<List<UserResponseDTO>> getUsers() {
         var listUsersResponseDTO = userService.findAll()

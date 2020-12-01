@@ -1,17 +1,13 @@
 package ro.agilehub.javacourse.car.hire.service.impl;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import io.swagger.v3.core.util.Json;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
-import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.entity.Country;
 import ro.agilehub.javacourse.car.hire.entity.User;
@@ -43,8 +39,7 @@ public class UserServiceImpl implements UserService {
     private ObjectMapper objectMapper;
 
     @Override
-    public String addUser(UserDTO userDTO) {
-        var userDO = mapDTO(userDTO);
+    public String addUser(UserDO userDO) {
         var user = mapper.toUser(userDO);
 
         return userRepository.save(user)
@@ -107,14 +102,6 @@ public class UserServiceImpl implements UserService {
                 .orElse(null);
 
         return mapper.toUserDO(user, country);
-    }
-
-    private UserDO mapDTO(UserDTO userDTO) {
-        var country = countryRepository
-                .findByIsoCode(userDTO.getCountryofresidence())
-                .orElse(null);
-
-        return mapperDTO.toUserDO(userDTO, country);
     }
 
 }

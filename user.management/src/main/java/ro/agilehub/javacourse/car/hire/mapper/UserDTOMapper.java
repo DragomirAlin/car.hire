@@ -23,14 +23,15 @@ public interface UserDTOMapper {
     @Mapping(target = "status", source = "userDO.status")
     UserResponseDTO toUserResponseDTO(UserDO userDO);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", source = "userDTO.email")
     @Mapping(target = "username", source = "userDTO.username")
     @Mapping(target = "firstname", source = "userDTO.firstname")
     @Mapping(target = "lastname", source = "userDTO.lastname")
     @Mapping(target = "title", source = "userDTO.title")
-    @Mapping(target = "countryDO", source = "country")
+    @Mapping(target = "countryDO", source = "countryDO")
     @Mapping(target = "driverlicensenumber", source = "userDTO.driverlicensenumber")
     @Mapping(target = "status", source = "userDTO.status")
-    UserDO toUserDO(UserDTO userDTO, Country country);
+    UserDO toUserDO(UserDTO userDTO, CountryDO countryDO);
 
 }

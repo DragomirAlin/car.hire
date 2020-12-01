@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.agilehub.javacourse.car.hire.api.model.CarDTO;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
-import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
 import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDOMapper;
@@ -36,8 +35,7 @@ public class FleetServiceImpl implements FleetService {
     private CarDTOMapper mapperDTO;
 
     @Override
-    public String addCar(CarDTO carDTO) {
-        var carDO = mapDTO(carDTO);
+    public String addCar(CarDO carDO) {
         var car = mapper.toCar(carDO);
         return fleetRepository.save(car).get_id().toString();
     }
@@ -90,11 +88,4 @@ public class FleetServiceImpl implements FleetService {
         return mapper.toCarDO(car, make);
     }
 
-    private CarDO mapDTO(CarDTO carDTO) {
-        var make = makeRepository
-                .findByMakeName(carDTO.getMake())
-                .orElse(null);
-
-        return mapperDTO.toCarDO(carDTO, make);
-    }
 }

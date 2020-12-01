@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ro.agilehub.javacourse.car.hire.api.model.*;
 import ro.agilehub.javacourse.car.hire.api.specification.FleetApi;
+import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDTOMapper;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
+import ro.agilehub.javacourse.car.hire.fleet.service.MakeService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,13 +21,15 @@ public class FleetController implements FleetApi {
 
     @Autowired
     private FleetService fleetService;
-
+    @Autowired
+    private MakeService makeService;
     @Autowired
     private CarDTOMapper mapper;
 
     @Override
     public ResponseEntity<String> addCar(@Valid CarDTO carDTO) {
-        var carID = fleetService.addCar(carDTO);
+        var carDO = map(carDTO);
+        var carID = fleetService.addCar(carDO);
         return ResponseEntity.ok(carID);
     }
 
@@ -61,8 +65,10 @@ public class FleetController implements FleetApi {
         return ResponseEntity.ok().build();
     }
 
-    @Override
-    public ResponseEntity<CarDTO> updateCar(String id, @Valid JsonPatch jsonPatch) {
-        return null;
+    private CarDO map(CarDTO carDTO) {
+        var makeDO = makeService.findByMakeName(carDTO.getMake());
+
+        return mapper.toCarDO(carDTO, makeDO);
     }
+
 }

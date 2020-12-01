@@ -7,7 +7,9 @@ import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.UserApi;
+import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.mapper.UserDTOMapper;
+import ro.agilehub.javacourse.car.hire.service.CountryService;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
 import javax.validation.Valid;
@@ -22,12 +24,15 @@ public class UserController implements UserApi {
     @Autowired
     private UserService userService;
     @Autowired
+    private CountryService countryService;
+    @Autowired
     private UserDTOMapper mapper;
 
 
     @Override
     public ResponseEntity<String> addUser(@Valid UserDTO userDTO) {
-        var userID = userService.addUser(userDTO);
+        var userDO = map(userDTO);
+        var userID = userService.addUser(userDO);
         return ResponseEntity.ok(userID);
     }
 
@@ -55,10 +60,13 @@ public class UserController implements UserApi {
         return ResponseEntity.ok().build();
     }
 
-    @Override
-    public ResponseEntity<UserDTO> updateUser(String id, @Valid JsonPatch patchDocument) {
-        return null;
+    private UserDO map(UserDTO userDTO) {
+        var countryDO = countryService.findByIsoCode(userDTO.getCountryofresidence());
+
+        return mapper.toUserDO(userDTO, countryDO);
     }
+
+
 
 
 }

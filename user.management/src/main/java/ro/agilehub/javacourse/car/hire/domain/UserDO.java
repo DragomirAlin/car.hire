@@ -16,10 +16,10 @@ public class UserDO {
     private String email;
     private String password;
     private String username;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String title;
-    private CountryDO countryOfResidence;
-    private long driverLicenseNumber;
+    private CountryDO countryDO;
+    private long driverlicensenumber;
     private Status status;
 }

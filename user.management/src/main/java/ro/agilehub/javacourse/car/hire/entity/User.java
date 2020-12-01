@@ -18,11 +18,11 @@ public class User {
     private String email;
     private String password;
     private String username;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String title;
-    private String country;
-    private long driverLicenseNumber;
+    private String country_id;
+    private long driverlicensenumber;
     private String status;
 
 

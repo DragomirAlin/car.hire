@@ -66,7 +66,7 @@ paths:
               title: Employee
               lastname: Alin
               countryofresidence: Romania
-              driverslicensenr: 221004
+              driverslicensenumber: 221004
               status: ACTIVE
       responses:
         '201':
@@ -603,7 +603,7 @@ components:
         title:
           type: string
           description: title of the user
-        driverslicensenr:
+        driverlicensenumber:
           type: integer
           format: int32
           description: driver`s license number of the user
@@ -641,7 +641,7 @@ components:
         title:
           type: string
           description: title of the user
-        driverslicensenr:
+        driverlicensenumber:
           type: integer
           format: int32
           description: driver`s license number of the user

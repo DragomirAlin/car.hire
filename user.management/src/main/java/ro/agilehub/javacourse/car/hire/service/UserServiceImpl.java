@@ -36,15 +36,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDTOMapper mapperDTO;
 
-    @Autowired
-    private CountryDOMapper countryDOMapper;
-
-
     @Override
     public String addUser(UserDTO userDTO) {
-        UserDO userDO = mapDTO(userDTO);
-
-        User user = mapper.toUser(userDO, userDO.getCountryOfResidence(), userDO.getStatus());
+        var userDO = mapDTO(userDTO);
+        var user = mapper.toUser(userDO);
         return userRepository.save(user).get_id().toString();
     }
 
@@ -76,19 +71,17 @@ public class UserServiceImpl implements UserService {
 
     private UserDO map(User user) {
         Country country = countryRepository
-                .findById(new ObjectId(user.getCountry()))
+                .findById(new ObjectId(user.getCountry_id()))
                 .orElse(null);
 
-        return mapper.toUserDO(user, country, Status.valueOf(user.getStatus()));
+        return mapper.toUserDO(user, country);
     }
 
     private UserDO mapDTO(UserDTO userDTO) {
         var country = countryRepository.findByIsoCode(userDTO.getCountryofresidence())
                 .orElse(null);
 
-        var countryDO = countryDOMapper.toCountryDO(country);
-
-        return mapperDTO.toUserDO(userDTO, countryDO, Status.ACTIVE);
+        return mapperDTO.toUserDO(userDTO, country);
     }
 
 }

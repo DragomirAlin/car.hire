@@ -65,8 +65,8 @@ paths:
               firstname: Dragomir
               title: Employee
               lastname: Alin
-              countryofresidence: Romania
-              driverslicensenumber: 221004
+              countryofresidence: ROU
+              driverlicensenumber: 221004
               status: ACTIVE
       responses:
         '201':
@@ -579,12 +579,10 @@ components:
           type: string
         message:
           type: string
-    UserResponseDTO:
+
+    UserDefaultObject:
       type: object
       properties:
-        id:
-          type: string
-          description: id of the user
         email:
           type: string
           description: email of the user
@@ -612,50 +610,29 @@ components:
           enum: [ ACTIVE, CANCELLED ]
           description: the status of the user
 
+    UserResponseDTO:
+      allOf:
+        - $ref: '#/components/schemas/UserDefaultObject'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int32
+              description: id of the user
+
     UserDTO:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: id of the user
-        email:
-          type: string
-          description: email of the user
-        password:
-          type: string
-          format: password
-          description: password of the user
-        username:
-          type: string
-          description: username of the user
-        firstname:
-          type: string
-          description: first name of the user
-        lastname:
-          type: string
-          description: last name of the user
-        countryofresidence:
-          type: string
-          description: country of residence of the user
-        title:
-          type: string
-          description: title of the user
-        driverlicensenumber:
-          type: integer
-          format: int32
-          description: driver`s license number of the user
-        status:
-          type: string
-          enum: [ACTIVE, CANCELLED]
-          description: the status of the user
+      allOf:
+        - $ref: '#/components/schemas/UserDefaultObject'
+        - type: object
+          properties:
+            password:
+              type: string
+              format: password
+              description: password of the user
+
     CarDTO:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
-          description: car id
         make:
           type: string
           description: make param
@@ -673,12 +650,22 @@ components:
         fuel:
           type: string
           description: type of fuel
-        car:
+        carClazz:
           type: string
         status:
           type: string
           enum: [ACTIVE, CANCELLED]
           description: the status of the car
+
+    CarResponseDTO:
+      allOf:
+        - $ref: '#/components/schemas/CarDTO'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: id car
+
 
     RentalDTO:
       type: object

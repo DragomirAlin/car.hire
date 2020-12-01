@@ -23,7 +23,6 @@ public interface UserDTOMapper {
     @Mapping(target = "status", source = "userDO.status")
     UserResponseDTO toUserResponseDTO(UserDO userDO);
 
-    @Mapping(target = "id", source = "userDTO.id")
     @Mapping(target = "email", source = "userDTO.email")
     @Mapping(target = "username", source = "userDTO.username")
     @Mapping(target = "firstname", source = "userDTO.firstname")

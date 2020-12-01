@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     public UserDO updateUser(String id, @Valid ro.agilehub.javacourse.car.hire.api.model.JsonPatch jsonPatch) {
         try {
             User user = userRepository.findById(new ObjectId(id)).orElseThrow();
-            JsonNode jsonNode = objectMapper.readTree(jsonPatch);
+            JsonNode jsonNode = objectMapper.readTree(String.valueOf(jsonPatch));
             JsonPatch jsonPatchs = JsonPatch.fromJson(jsonNode);
             User userPatched = applyPatchToUser(jsonPatchs, user);
             userRepository.save(userPatched);

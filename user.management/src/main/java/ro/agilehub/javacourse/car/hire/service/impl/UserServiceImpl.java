@@ -5,13 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.agilehub.javacourse.car.hire.api.model.PatchDocument;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
-import ro.agilehub.javacourse.car.hire.domain.CountryDO;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.entity.Country;
-import ro.agilehub.javacourse.car.hire.entity.Status;
 import ro.agilehub.javacourse.car.hire.entity.User;
 import ro.agilehub.javacourse.car.hire.exception.NotFoundException;
-import ro.agilehub.javacourse.car.hire.mapper.CountryDOMapper;
 import ro.agilehub.javacourse.car.hire.mapper.UserDTOMapper;
 import ro.agilehub.javacourse.car.hire.repository.CountryRepository;
 import ro.agilehub.javacourse.car.hire.repository.UserRepository;
@@ -19,7 +16,6 @@ import ro.agilehub.javacourse.car.hire.mapper.UserDOMapper;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -39,12 +35,16 @@ public class UserServiceImpl implements UserService {
     public String addUser(UserDTO userDTO) {
         var userDO = mapDTO(userDTO);
         var user = mapper.toUser(userDO);
-        return userRepository.save(user).get_id().toString();
+
+        return userRepository.save(user)
+                .get_id()
+                .toString();
     }
 
     @Override
     public void removeUser(String id) {
-        var user = userRepository.findById(new ObjectId(id))
+        var user = userRepository
+                .findById(new ObjectId(id))
                 .orElseThrow(() -> new NotFoundException(id));
 
         userRepository.delete(user);
@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDO findById(String id) {
-        return userRepository.findById(new ObjectId(id))
+        return userRepository
+                .findById(new ObjectId(id))
                 .map(this::map)
                 .orElseThrow(() -> new NotFoundException(id));
     }
@@ -80,7 +81,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDO mapDTO(UserDTO userDTO) {
-        var country = countryRepository.findByIsoCode(userDTO.getCountryofresidence())
+        var country = countryRepository
+                .findByIsoCode(userDTO.getCountryofresidence())
                 .orElse(null);
 
         return mapperDTO.toUserDO(userDTO, country);

@@ -33,7 +33,8 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<UserResponseDTO> getUser(String id) {
-        var userResponseDTO = mapper.toUserResponseDTO(userService.findById(id));
+        var userResponseDTO = mapper
+                .toUserResponseDTO(userService.findById(id));
 
         return ResponseEntity.ok(userResponseDTO);
     }

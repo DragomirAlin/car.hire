@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "make")
 public class Make {
 
-
     @Id
     @Field("_id")
     private ObjectId _id;

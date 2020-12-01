@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface FleetService {
 
-    int addCar(CarDTO carDO);
-    void removeCar(Integer id);
-    CarDO getCar(Integer id);
-    List<CarDO> getCars();
-    CarDO updateCar(Integer id, List<PatchDocument> patchDocument);
-    List<CarDO> getCarsByStatus(String status);
+    String addCar(CarDTO carDTO);
+    void removeCar(String id);
+    CarDO findById(String id);
+    List<CarDO> findAll();
+    CarDO updateCar(String id, List<PatchDocument> patchDocument);
+    List<CarDO> findAllByStatus(String status);
 
 }

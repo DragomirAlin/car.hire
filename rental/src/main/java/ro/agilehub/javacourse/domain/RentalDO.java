@@ -14,9 +14,9 @@ public class RentalDO {
 
     private String id;
 
-    private UserDO user_id;
+    private UserDO userDO;
 
-    private CarDO car_id;
+    private CarDO carDO;
 
     private String startDate;
 

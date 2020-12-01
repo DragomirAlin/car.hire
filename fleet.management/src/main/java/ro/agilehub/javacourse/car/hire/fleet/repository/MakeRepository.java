@@ -4,11 +4,14 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
+import ro.agilehub.javacourse.car.hire.fleet.entity.Make;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface FleetRepository extends MongoRepository<Car, ObjectId> {
+public interface MakeRepository extends MongoRepository<Make, ObjectId> {
 
-    List<Car> findAllByStatus(String status);
+    Optional<Make> findByMakeName(String makeName);
+
+
 }

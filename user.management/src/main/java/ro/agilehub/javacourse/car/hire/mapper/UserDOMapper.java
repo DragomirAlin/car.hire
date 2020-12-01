@@ -5,6 +5,8 @@ import org.mapstruct.Mapping;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.entity.Country;
 import ro.agilehub.javacourse.car.hire.entity.User;
+import ro.agilehub.javacourse.car.hire.mapper.CountryDOMapper;
+import ro.agilehub.javacourse.car.hire.mapper.ObjectIdMapper;
 
 @Mapper(componentModel = "spring", uses = {CountryDOMapper.class, ObjectIdMapper.class})
 public interface UserDOMapper {

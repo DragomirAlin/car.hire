@@ -24,7 +24,7 @@ public class Rental {
 
     private String endDate;
 
-    private Status status;
+    private String status;
 
 
 }

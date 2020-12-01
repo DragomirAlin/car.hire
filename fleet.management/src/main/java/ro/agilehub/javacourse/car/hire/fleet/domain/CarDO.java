@@ -12,11 +12,12 @@ import ro.agilehub.javacourse.car.hire.fleet.entity.Status;
 public class CarDO {
 
     private String id;
-    private Make make;
+    private MakeDO makeDO;
     private String model;
     private int year;
     private int mileage;
     private String fuel;
+    private String carClazz;
     private Status status;
 
 }

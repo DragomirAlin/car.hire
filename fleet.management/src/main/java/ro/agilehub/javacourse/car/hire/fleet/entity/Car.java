@@ -20,7 +20,8 @@ public class Car {
     private int year;
     private int mileage;
     private String fuel;
-    private Status status;
+    private String carClazz;
+    private String status;
 
 
 }

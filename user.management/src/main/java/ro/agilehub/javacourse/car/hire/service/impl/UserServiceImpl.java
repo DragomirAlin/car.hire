@@ -75,15 +75,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDO updateUser(String id, @Valid List<ro.agilehub.javacourse.car.hire.api.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
         JsonPatch patch = objectMapper.convertValue(jsonPatch, JsonPatch.class);
-        User user = userRepository.findById(new ObjectId(id)).orElseThrow();
+        var user = userRepository.findById(new ObjectId(id)).orElseThrow();
 
-        User userPatched = applyPatchToUser(patch, user);
+        var userPatched = applyPatchToUser(patch, user);
         userPatched.set_id(user.get_id());
+
         return map(userRepository.save(userPatched));
     }
 
     private User applyPatchToUser(JsonPatch patch, User targetCustomer) throws JsonPatchException, JsonProcessingException {
         JsonNode patched = patch.apply(objectMapper.convertValue(targetCustomer, JsonNode.class));
+
         return objectMapper.treeToValue(patched, User.class);
     }
 

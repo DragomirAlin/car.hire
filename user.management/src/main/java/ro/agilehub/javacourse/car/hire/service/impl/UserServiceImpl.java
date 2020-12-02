@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(new ObjectId(id)).orElseThrow();
 
         User userPatched = applyPatchToUser(patch, user);
-
+        userPatched.set_id(user.get_id());
         return map(userRepository.save(userPatched));
     }
 

@@ -129,10 +129,6 @@ paths:
       responses:
         '200':
           description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserDTO'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':

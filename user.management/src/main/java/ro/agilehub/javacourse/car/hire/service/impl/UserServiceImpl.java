@@ -20,6 +20,7 @@ import ro.agilehub.javacourse.car.hire.service.UserService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -33,9 +34,8 @@ public class UserServiceImpl implements UserService {
     private CountryRepository countryRepository;
     @Autowired
     private UserDOMapper mapper;
-    @Autowired
-    private UserDTOMapper mapperDTO;
 
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Override
@@ -73,22 +73,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDO updateUser(String id, @Valid ro.agilehub.javacourse.car.hire.api.model.JsonPatch jsonPatch) {
-        try {
-            User user = userRepository.findById(new ObjectId(id)).orElseThrow();
-            JsonNode jsonNode = objectMapper.readTree(String.valueOf(jsonPatch));
-            JsonPatch jsonPatchs = JsonPatch.fromJson(jsonNode);
-            User userPatched = applyPatchToUser(jsonPatchs, user);
-            userRepository.save(userPatched);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JsonPatchException e) {
-            e.printStackTrace();
-        }
-        var userDO = map(userRepository.findById(new ObjectId(id)).orElseThrow());
-        return userDO;
+    public UserDO updateUser(String id, @Valid List<ro.agilehub.javacourse.car.hire.api.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
+        JsonPatch patch = objectMapper.convertValue(jsonPatch, JsonPatch.class);
+        User user = userRepository.findById(new ObjectId(id)).orElseThrow();
+
+        User userPatched = applyPatchToUser(patch, user);
+
+        return map(userRepository.save(userPatched));
     }
 
     private User applyPatchToUser(JsonPatch patch, User targetCustomer) throws JsonPatchException, JsonProcessingException {

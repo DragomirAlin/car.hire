@@ -1,5 +1,7 @@
 package ro.agilehub.javacourse.car.hire.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatchException;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
@@ -18,6 +20,6 @@ public interface UserService {
 
     List<UserDO> findAll();
 
-    UserDO updateUser(String id, @Valid JsonPatch jsonPatch);
+    UserDO updateUser(String id, @Valid List<JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException;
 
 }

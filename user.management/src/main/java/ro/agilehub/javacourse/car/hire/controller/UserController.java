@@ -1,5 +1,7 @@
 package ro.agilehub.javacourse.car.hire.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,7 +68,17 @@ public class UserController implements UserApi {
         return mapper.toUserDO(userDTO, countryDO);
     }
 
+    @Override
+    public ResponseEntity<Void> updateUser(String id, @Valid List<JsonPatch> jsonPatch)  {
+        UserDO userDO = null;
+        try {
+            userDO = userService.updateUser(id, jsonPatch);
+        } catch (JsonPatchException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
-
-
+        return ResponseEntity.ok().build();
+    }
 }

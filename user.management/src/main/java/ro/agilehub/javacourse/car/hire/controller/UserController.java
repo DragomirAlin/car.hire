@@ -5,12 +5,14 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.UserApi;
 import ro.agilehub.javacourse.car.hire.domain.UserDO;
+import ro.agilehub.javacourse.car.hire.mapper.JsonPatchDTOMapper;
 import ro.agilehub.javacourse.car.hire.mapper.UserDTOMapper;
+import ro.agilehub.javacourse.car.hire.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.service.CountryService;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
@@ -29,6 +31,8 @@ public class UserController implements UserApi {
     private CountryService countryService;
     @Autowired
     private UserDTOMapper mapper;
+    @Autowired
+    private JsonPatchDTOMapper jsonPatchDTOMapper;
 
 
     @Override
@@ -68,11 +72,11 @@ public class UserController implements UserApi {
         return mapper.toUserDO(userDTO, countryDO);
     }
 
-    @Override
-    public ResponseEntity<Void> updateUser(String id, @Valid List<JsonPatch> jsonPatch)  {
+    public ResponseEntity<Void> updateUser(String id, @Valid List<JsonPatchDTO> jsonPatch)  {
+        List<JsonPatch> jsonPatchList = jsonPatch.stream().map(jsonPatchDTOMapper::toJsonPatch).collect(toList());
         UserDO userDO = null;
         try {
-            userDO = userService.updateUser(id, jsonPatch);
+            userDO = userService.updateUser(id, jsonPatchList);
         } catch (JsonPatchException e) {
             e.printStackTrace();
         } catch (JsonProcessingException e) {

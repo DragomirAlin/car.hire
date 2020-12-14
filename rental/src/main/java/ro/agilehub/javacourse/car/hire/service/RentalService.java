@@ -1,8 +1,9 @@
 package ro.agilehub.javacourse.car.hire.service;
 
-import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
-import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatchException;
 import ro.agilehub.javacourse.car.hire.domain.RentalDO;
+import ro.agilehub.javacourse.car.hire.model.JsonPatch;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -13,5 +14,5 @@ public interface RentalService {
     void removeRent(String id);
     RentalDO findById(String id);
     List<RentalDO> findAll();
-    RentalDO updateRent(String id, @Valid JsonPatch jsonPatch);
+    RentalDO updateRent(String id, List<JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException;
 }

@@ -1,15 +1,21 @@
 package ro.agilehub.javacourse.car.hire.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.RentalApi;
 import ro.agilehub.javacourse.car.hire.domain.RentalDO;
+import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
+import ro.agilehub.javacourse.car.hire.mapper.JsonPatchDTOMapper;
+import ro.agilehub.javacourse.car.hire.mapper.JsonPatchDTORentalMapper;
 import ro.agilehub.javacourse.car.hire.mapper.RentalDTOMapper;
+import ro.agilehub.javacourse.car.hire.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.service.RentalService;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
@@ -29,6 +35,8 @@ public class RentalController implements RentalApi {
     private UserService userService;
     @Autowired
     private FleetService fleetService;
+    @Autowired
+    private JsonPatchDTORentalMapper mapperJsonPatch;
 
     @Override
     public ResponseEntity<String> addRental(@Valid RentalDTO rentalDTO) {
@@ -59,6 +67,20 @@ public class RentalController implements RentalApi {
                 .collect(toList());
 
         return ResponseEntity.ok(listRentalsReponseDTO);
+    }
+
+    @Override
+    public ResponseEntity<RentalDTO> updateRental(String id, @Valid List<JsonPatchDTO> jsonPatchDTO) {
+        List<JsonPatch> jsonPatchList = jsonPatchDTO.stream().map(mapperJsonPatch::toJsonPatch).collect(toList());
+        RentalDO rentalDO = null;
+        try {
+            rentalDO = rentalService.updateRent(id, jsonPatchList);
+        } catch (JsonPatchException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok().build();
     }
 
     private RentalDO map(RentalDTO rentalDTO) {

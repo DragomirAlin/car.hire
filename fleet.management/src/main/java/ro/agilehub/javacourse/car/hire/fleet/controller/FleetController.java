@@ -65,6 +65,11 @@ public class FleetController implements FleetApi {
         return ResponseEntity.ok().build();
     }
 
+    @Override
+    public ResponseEntity<CarDTO> updateCar(String id, @Valid List<JsonPatchDTO> jsonPatchDTO) {
+        return null;
+    }
+
     private CarDO map(CarDTO carDTO) {
         var makeDO = makeService.findByMakeName(carDTO.getMake());
 

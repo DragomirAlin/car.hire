@@ -1,21 +1,21 @@
 package ro.agilehub.javacourse.car.hire.fleet.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.agilehub.javacourse.car.hire.api.model.CarDTO;
-import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
 import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDOMapper;
-import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDTOMapper;
 import ro.agilehub.javacourse.car.hire.fleet.repository.FleetRepository;
 import ro.agilehub.javacourse.car.hire.fleet.repository.MakeRepository;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -24,15 +24,12 @@ public class FleetServiceImpl implements FleetService {
 
     @Autowired
     private FleetRepository fleetRepository;
-
     @Autowired
     private MakeRepository makeRepository;
-
     @Autowired
     private CarDOMapper mapper;
-
     @Autowired
-    private CarDTOMapper mapperDTO;
+    private ObjectMapper objectMapper;
 
     @Override
     public String addCar(CarDO carDO) {
@@ -67,8 +64,20 @@ public class FleetServiceImpl implements FleetService {
     }
 
     @Override
-    public CarDO updateCar(String id, @Valid JsonPatch jsonPatch) {
-        return null;
+    public CarDO updateCar(String id, List<ro.agilehub.javacourse.car.hire.fleet.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
+        JsonPatch patch = objectMapper.convertValue(jsonPatch, JsonPatch.class);
+        var car = fleetRepository.findById(new ObjectId(id)).orElseThrow();
+
+        var carPatched = applyPatchToUser(patch, car);
+        carPatched.set_id(car.get_id());
+
+        return map(fleetRepository.save(carPatched));
+    }
+
+    private Car applyPatchToUser(com.github.fge.jsonpatch.JsonPatch patch, Car targetCar) throws JsonPatchException, JsonProcessingException {
+        JsonNode patched = patch.apply(objectMapper.convertValue(targetCar, JsonNode.class));
+
+        return objectMapper.treeToValue(patched, Car.class);
     }
 
     @Override

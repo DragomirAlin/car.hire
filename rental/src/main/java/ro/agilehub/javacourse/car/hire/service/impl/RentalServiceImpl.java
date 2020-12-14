@@ -1,17 +1,18 @@
 package ro.agilehub.javacourse.car.hire.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.agilehub.javacourse.car.hire.api.model.JsonPatch;
-import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
-import ro.agilehub.javacourse.car.hire.fleet.repository.FleetRepository;
+import ro.agilehub.javacourse.car.hire.entity.User;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
-import ro.agilehub.javacourse.car.hire.repository.UserRepository;
+import ro.agilehub.javacourse.car.hire.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.domain.RentalDO;
 import ro.agilehub.javacourse.car.hire.entity.Rental;
 import ro.agilehub.javacourse.car.hire.mapper.RentalDOMapper;
-import ro.agilehub.javacourse.car.hire.mapper.RentalDTOMapper;
 import ro.agilehub.javacourse.car.hire.repository.RentalRepository;
 import ro.agilehub.javacourse.car.hire.service.RentalService;
 import ro.agilehub.javacourse.car.hire.service.UserService;
@@ -32,7 +33,8 @@ public class RentalServiceImpl implements RentalService {
     private UserService userService;
     @Autowired
     private FleetService fleetService;
-
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @Override
@@ -72,8 +74,20 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public RentalDO updateRent(String id, @Valid JsonPatch jsonPatch) {
-        return null;
+    public RentalDO updateRent(String id, List<JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
+        com.github.fge.jsonpatch.JsonPatch patch = objectMapper.convertValue(jsonPatch, com.github.fge.jsonpatch.JsonPatch.class);
+        var rental = rentalRepository.findById(new ObjectId(id)).orElseThrow();
+
+        var rentalPatched = applyPatchToUser(patch, rental);
+        rentalPatched.set_id(rental.get_id());
+
+        return map(rentalRepository.save(rentalPatched));
+    }
+
+    private Rental applyPatchToUser(com.github.fge.jsonpatch.JsonPatch patch, Rental targetRental) throws JsonPatchException, JsonProcessingException {
+        JsonNode patched = patch.apply(objectMapper.convertValue(targetRental, JsonNode.class));
+
+        return objectMapper.treeToValue(patched, Rental.class);
     }
 
     private RentalDO map(Rental rental) {

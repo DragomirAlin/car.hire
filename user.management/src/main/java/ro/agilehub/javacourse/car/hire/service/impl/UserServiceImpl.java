@@ -12,15 +12,11 @@ import ro.agilehub.javacourse.car.hire.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.entity.Country;
 import ro.agilehub.javacourse.car.hire.entity.User;
 import ro.agilehub.javacourse.car.hire.exception.NotFoundException;
-import ro.agilehub.javacourse.car.hire.mapper.UserDTOMapper;
 import ro.agilehub.javacourse.car.hire.repository.CountryRepository;
 import ro.agilehub.javacourse.car.hire.repository.UserRepository;
 import ro.agilehub.javacourse.car.hire.mapper.UserDOMapper;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
-import javax.validation.Valid;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -34,7 +30,6 @@ public class UserServiceImpl implements UserService {
     private CountryRepository countryRepository;
     @Autowired
     private UserDOMapper mapper;
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -73,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDO updateUser(String id, @Valid List<ro.agilehub.javacourse.car.hire.api.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
+    public UserDO updateUser(String id, List<ro.agilehub.javacourse.car.hire.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
         JsonPatch patch = objectMapper.convertValue(jsonPatch, JsonPatch.class);
         var user = userRepository.findById(new ObjectId(id)).orElseThrow();
 

@@ -7,17 +7,15 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.agilehub.javacourse.car.hire.entity.User;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
-import ro.agilehub.javacourse.car.hire.model.JsonPatch;
-import ro.agilehub.javacourse.car.hire.domain.RentalDO;
+import ro.agilehub.javacourse.car.hire.service.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.service.domain.RentalDO;
 import ro.agilehub.javacourse.car.hire.entity.Rental;
-import ro.agilehub.javacourse.car.hire.mapper.RentalDOMapper;
+import ro.agilehub.javacourse.car.hire.service.mapper.RentalDOMapper;
 import ro.agilehub.javacourse.car.hire.repository.RentalRepository;
 import ro.agilehub.javacourse.car.hire.service.RentalService;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;

@@ -8,9 +8,9 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
-import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDOMapper;
+import ro.agilehub.javacourse.car.hire.fleet.service.mapper.CarDOMapper;
 import ro.agilehub.javacourse.car.hire.fleet.repository.FleetRepository;
 import ro.agilehub.javacourse.car.hire.fleet.repository.MakeRepository;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
@@ -64,7 +64,7 @@ public class FleetServiceImpl implements FleetService {
     }
 
     @Override
-    public CarDO updateCar(String id, List<ro.agilehub.javacourse.car.hire.fleet.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
+    public CarDO updateCar(String id, List<ro.agilehub.javacourse.car.hire.fleet.service.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
         JsonPatch patch = objectMapper.convertValue(jsonPatch, JsonPatch.class);
         var car = fleetRepository.findById(new ObjectId(id)).orElseThrow();
 

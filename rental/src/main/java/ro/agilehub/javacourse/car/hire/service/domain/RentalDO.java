@@ -1,7 +1,7 @@
-package ro.agilehub.javacourse.car.hire.domain;
+package ro.agilehub.javacourse.car.hire.service.domain;
 
 import lombok.*;
-import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.entity.Status;
 
 @Data

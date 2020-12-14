@@ -1,13 +1,11 @@
-package ro.agilehub.javacourse.car.hire.mapper;
+package ro.agilehub.javacourse.car.hire.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
-import ro.agilehub.javacourse.car.hire.domain.CountryDO;
-import ro.agilehub.javacourse.car.hire.domain.UserDO;
-import ro.agilehub.javacourse.car.hire.entity.Country;
-import ro.agilehub.javacourse.car.hire.entity.Status;
+import ro.agilehub.javacourse.car.hire.service.domain.CountryDO;
+import ro.agilehub.javacourse.car.hire.service.domain.UserDO;
 
 @Mapper(componentModel = "spring", uses = {CountryDOMapper.class, ObjectIdMapper.class})
 public interface UserDTOMapper {

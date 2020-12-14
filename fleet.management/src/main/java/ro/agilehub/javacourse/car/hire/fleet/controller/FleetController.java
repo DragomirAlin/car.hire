@@ -1,13 +1,12 @@
 package ro.agilehub.javacourse.car.hire.fleet.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ro.agilehub.javacourse.car.hire.api.model.*;
 import ro.agilehub.javacourse.car.hire.api.specification.FleetApi;
-import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
-import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDTOMapper;
+import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.mapper.CarDTOMapper;
 import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
 import ro.agilehub.javacourse.car.hire.fleet.service.MakeService;
 

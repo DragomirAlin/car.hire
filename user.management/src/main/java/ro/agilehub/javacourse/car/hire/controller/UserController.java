@@ -9,10 +9,10 @@ import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.UserApi;
-import ro.agilehub.javacourse.car.hire.domain.UserDO;
-import ro.agilehub.javacourse.car.hire.mapper.JsonPatchDTOMapper;
-import ro.agilehub.javacourse.car.hire.mapper.UserDTOMapper;
-import ro.agilehub.javacourse.car.hire.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.service.domain.UserDO;
+import ro.agilehub.javacourse.car.hire.service.mapper.JsonPatchDTOMapper;
+import ro.agilehub.javacourse.car.hire.service.mapper.UserDTOMapper;
+import ro.agilehub.javacourse.car.hire.service.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.service.CountryService;
 import ro.agilehub.javacourse.car.hire.service.UserService;
 

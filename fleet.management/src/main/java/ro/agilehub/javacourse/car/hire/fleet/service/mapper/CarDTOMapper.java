@@ -1,12 +1,11 @@
-package ro.agilehub.javacourse.car.hire.fleet.mapper;
+package ro.agilehub.javacourse.car.hire.fleet.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ro.agilehub.javacourse.car.hire.api.model.CarDTO;
 import ro.agilehub.javacourse.car.hire.api.model.CarResponseDTO;
-import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
-import ro.agilehub.javacourse.car.hire.fleet.domain.MakeDO;
-import ro.agilehub.javacourse.car.hire.fleet.entity.Make;
+import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.domain.MakeDO;
 
 
 @Mapper(componentModel = "spring", uses = {ObjectIdFleetMapper.class, MakeDOMapper.class})

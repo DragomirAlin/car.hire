@@ -2,10 +2,9 @@ package ro.agilehub.javacourse.car.hire.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
-import ro.agilehub.javacourse.car.hire.domain.RentalDO;
-import ro.agilehub.javacourse.car.hire.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.service.domain.RentalDO;
+import ro.agilehub.javacourse.car.hire.service.model.JsonPatch;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface RentalService {

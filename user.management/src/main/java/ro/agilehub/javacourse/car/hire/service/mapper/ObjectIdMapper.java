@@ -1,10 +1,10 @@
-package ro.agilehub.javacourse.car.hire.fleet.mapper;
+package ro.agilehub.javacourse.car.hire.service.mapper;
 
 import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface ObjectIdFleetMapper {
+public interface ObjectIdMapper {
 
     default ObjectId toObjectId(String id) {
         if (id == null) {

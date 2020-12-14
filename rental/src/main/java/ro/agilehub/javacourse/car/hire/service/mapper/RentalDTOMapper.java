@@ -1,18 +1,15 @@
-package ro.agilehub.javacourse.car.hire.mapper;
+package ro.agilehub.javacourse.car.hire.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalResponseDTO;
-import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
-import ro.agilehub.javacourse.car.hire.domain.UserDO;
-import ro.agilehub.javacourse.car.hire.entity.User;
-import ro.agilehub.javacourse.car.hire.fleet.domain.CarDO;
-import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
-import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDOMapper;
-import ro.agilehub.javacourse.car.hire.fleet.mapper.CarDTOMapper;
-import ro.agilehub.javacourse.car.hire.domain.RentalDO;
-import ro.agilehub.javacourse.car.hire.fleet.mapper.MakeDOMapper;
+import ro.agilehub.javacourse.car.hire.service.domain.UserDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.mapper.CarDOMapper;
+import ro.agilehub.javacourse.car.hire.fleet.service.mapper.CarDTOMapper;
+import ro.agilehub.javacourse.car.hire.service.domain.RentalDO;
+import ro.agilehub.javacourse.car.hire.fleet.service.mapper.MakeDOMapper;
 
 @Mapper(componentModel = "spring", uses = {ObjectIdRentalMapper.class, UserDOMapper.class,
         CarDOMapper.class, CountryDOMapper.class, MakeDOMapper.class, UserDTOMapper.class, CarDTOMapper.class})

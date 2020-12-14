@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.domain;
+package ro.agilehub.javacourse.car.hire.fleet.service.domain;
 
 import lombok.*;
 
@@ -7,11 +7,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CountryDO {
+public class MakeDO {
 
     private String id;
-
-    private String name;
-
-    private String isoCode;
+    private String makeName;
 }

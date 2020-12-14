@@ -1,7 +1,6 @@
 package ro.agilehub.javacourse.car.hire.service;
 
-import ro.agilehub.javacourse.car.hire.domain.CountryDO;
-import ro.agilehub.javacourse.car.hire.entity.Country;
+import ro.agilehub.javacourse.car.hire.service.domain.CountryDO;
 
 public interface CountryService {
 

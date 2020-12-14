@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.model;
+package ro.agilehub.javacourse.car.hire.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

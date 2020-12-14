@@ -1,8 +1,8 @@
-package ro.agilehub.javacourse.car.hire.mapper;
+package ro.agilehub.javacourse.car.hire.service.mapper;
 
 import org.mapstruct.Mapper;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
-import ro.agilehub.javacourse.car.hire.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.service.model.JsonPatch;
 
 @Mapper(componentModel = "spring")
 public interface JsonPatchDTOMapper {

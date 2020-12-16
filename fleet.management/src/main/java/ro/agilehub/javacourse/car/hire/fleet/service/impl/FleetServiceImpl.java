@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,13 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@RequiredArgsConstructor
 public class FleetServiceImpl implements FleetService {
 
-    @Autowired
-    private FleetRepository fleetRepository;
-    @Autowired
-    private MakeRepository makeRepository;
-    @Autowired
-    private CarDOMapper mapper;
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final FleetRepository fleetRepository;
+    private final MakeRepository makeRepository;
+    private final CarDOMapper mapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public String addCar(CarDO carDO) {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +23,13 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CountryRepository countryRepository;
-    @Autowired
-    private UserDOMapper mapper;
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final UserRepository userRepository;
+    private final CountryRepository countryRepository;
+    private final UserDOMapper mapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public String addUser(UserDO userDO) {

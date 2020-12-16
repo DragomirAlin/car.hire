@@ -1,5 +1,6 @@
 package ro.agilehub.javacourse.car.hire.fleet.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,12 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@RequiredArgsConstructor
 public class FleetController implements FleetApi {
 
-    @Autowired
-    private FleetService fleetService;
-    @Autowired
-    private MakeService makeService;
-    @Autowired
-    private CarDTOMapper mapper;
+    private final FleetService fleetService;
+    private final MakeService makeService;
+    private final CarDTOMapper mapper;
 
     @Override
     public ResponseEntity<CreatedDTO>addCar(@Valid CarDTO carDTO) {

@@ -2,6 +2,7 @@ package ro.agilehub.javacourse.car.hire.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,18 +27,14 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@RequiredArgsConstructor
 public class RentalController implements RentalApi {
 
-    @Autowired
-    private RentalService rentalService;
-    @Autowired
-    private RentalDTOMapper mapper;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private FleetService fleetService;
-    @Autowired
-    private JsonPatchDTORentalMapper mapperJsonPatch;
+    private final RentalService rentalService;
+    private final RentalDTOMapper mapper;
+    private final UserService userService;
+    private final FleetService fleetService;
+    private final JsonPatchDTORentalMapper mapperJsonPatch;
 
     @Override
     public ResponseEntity<CreatedDTO> addRental(@Valid RentalDTO rentalDTO) {

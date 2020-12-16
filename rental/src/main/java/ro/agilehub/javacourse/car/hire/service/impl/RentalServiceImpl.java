@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchException;
+import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,19 +22,14 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@RequiredArgsConstructor
 public class RentalServiceImpl implements RentalService {
 
-    @Autowired
-    private RentalRepository rentalRepository;
-    @Autowired
-    private RentalDOMapper mapper;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private FleetService fleetService;
-    @Autowired
-    private ObjectMapper objectMapper;
-
+    private final RentalRepository rentalRepository;
+    private final RentalDOMapper mapper;
+    private final UserService userService;
+    private final FleetService fleetService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public String addRent(RentalDO rentalDO) {

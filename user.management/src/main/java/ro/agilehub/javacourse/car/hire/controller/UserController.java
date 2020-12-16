@@ -2,6 +2,7 @@ package ro.agilehub.javacourse.car.hire.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +26,13 @@ import static java.util.stream.Collectors.toList;
 
 
 @RestController
+@RequiredArgsConstructor
 public class UserController implements UserApi {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CountryService countryService;
-    @Autowired
-    private UserDTOMapper mapper;
-    @Autowired
-    private JsonPatchDTOMapper jsonPatchDTOMapper;
+    private final UserService userService;
+    private final CountryService countryService;
+    private final UserDTOMapper mapper;
+    private final JsonPatchDTOMapper jsonPatchDTOMapper;
 
     @Override
     public ResponseEntity<CreatedDTO> addUser(@Valid UserDTO userDTO) {

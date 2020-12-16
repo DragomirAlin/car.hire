@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.service.mapper;
+package ro.agilehub.javacourse.car.hire.controller.mapper;
 
 import org.mapstruct.Mapper;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;

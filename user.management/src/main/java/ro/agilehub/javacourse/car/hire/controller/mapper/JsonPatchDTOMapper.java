@@ -1,11 +1,11 @@
-package ro.agilehub.javacourse.car.hire.fleet.service.mapper;
+package ro.agilehub.javacourse.car.hire.controller.mapper;
 
 import org.mapstruct.Mapper;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
-import ro.agilehub.javacourse.car.hire.fleet.service.model.JsonPatch;
+import ro.agilehub.javacourse.car.hire.service.model.JsonPatch;
 
 @Mapper(componentModel = "spring")
-public interface JsonPatchFleetDTOMapper {
+public interface JsonPatchDTOMapper {
 
     JsonPatch toJsonPatch(JsonPatchDTO jsonPatchDTO);
 }

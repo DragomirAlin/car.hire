@@ -36,7 +36,6 @@ public class UserController implements UserApi {
     @Autowired
     private JsonPatchDTOMapper jsonPatchDTOMapper;
 
-
     @Override
     public ResponseEntity<CreatedDTO> addUser(@Valid UserDTO userDTO) {
         var userDO = map(userDTO);

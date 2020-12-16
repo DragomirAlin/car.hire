@@ -2,7 +2,9 @@ package ro.agilehub.javacourse.car.hire.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +24,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import ro.agilehub.javacourse.car.hire.api.model.CreatedDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
+import ro.agilehub.javacourse.car.hire.entity.Country;
+import ro.agilehub.javacourse.car.hire.repository.CountryRepository;
+import ro.agilehub.javacourse.car.hire.service.impl.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,12 +36,14 @@ public class UserControllerTests {
 
     @Autowired
     private MockMvc mvc;
-
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private CountryRepository countryRepository;
 
     @Test
     public void addUserOk() throws Exception {
+
         UserDTO userDTO = new UserDTO()
                 .email("user@carhire.ro")
                 .driverlicensenumber(152)

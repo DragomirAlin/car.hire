@@ -1,12 +1,3 @@
-# Project exclude paths
-/api/target/
-/boot/target/
-/fleet.management/target/
-/rental/target/
-/user.management/target/
-/.idea/
-/car.hire.iml
-
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,intellij+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij+all

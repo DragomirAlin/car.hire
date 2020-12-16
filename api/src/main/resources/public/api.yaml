@@ -492,11 +492,7 @@ components:
       content:
         application/json:
           schema:
-            type: string
-            properties:
-              id:
-                type: string
-                example: 12fc2
+            $ref: '#/components/schemas/CreatedDTO'
     NotFound:
       description: not found
     Unauthorized:
@@ -526,6 +522,13 @@ components:
             $ref: '#/components/schemas/PatchBody'
 
   schemas:
+    CreatedDTO:
+      type: object
+      properties:
+        id:
+          type: string
+
+
     PatchBody:
       items:
         $ref: '#/components/schemas/JsonPatchDTO'

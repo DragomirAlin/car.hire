@@ -3,8 +3,10 @@ package ro.agilehub.javacourse.car.hire.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import ro.agilehub.javacourse.car.hire.api.model.CreatedDTO;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
@@ -36,10 +38,13 @@ public class UserController implements UserApi {
 
 
     @Override
-    public ResponseEntity<String> addUser(@Valid UserDTO userDTO) {
+    public ResponseEntity<CreatedDTO> addUser(@Valid UserDTO userDTO) {
         var userDO = map(userDTO);
         var userID = userService.addUser(userDO);
-        return ResponseEntity.ok(userID);
+        CreatedDTO createdDTO = new CreatedDTO();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdDTO.id(userID));
     }
 
     @Override

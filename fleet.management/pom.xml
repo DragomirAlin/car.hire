@@ -38,11 +38,7 @@
             <artifactId>zjsonpatch</artifactId>
             <version>0.2.1</version>
         </dependency>
-        <dependency>
-            <groupId>ro.agilehub.javacourse</groupId>
-            <artifactId>fleet.management</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+
 
     </dependencies>
 </project>

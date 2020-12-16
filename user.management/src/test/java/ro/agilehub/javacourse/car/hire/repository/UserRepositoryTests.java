@@ -31,9 +31,7 @@ public class UserRepositoryTests {
         var user = new User();
         user.set_id(new ObjectId("507f1f77bcf86cd799439011"));
         user.setUsername(USERNAME);
-
         userRepository.save(user);
-
     }
 
     @Test

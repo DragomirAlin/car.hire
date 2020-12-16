@@ -1,6 +1,7 @@
 package ro.agilehub.javacourse.car.hire.fleet.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ro.agilehub.javacourse.car.hire.api.model.*;
@@ -26,10 +27,13 @@ public class FleetController implements FleetApi {
     private CarDTOMapper mapper;
 
     @Override
-    public ResponseEntity<String> addCar(@Valid CarDTO carDTO) {
+    public ResponseEntity<CreatedDTO>addCar(@Valid CarDTO carDTO) {
         var carDO = map(carDTO);
         var carID = fleetService.addCar(carDO);
-        return ResponseEntity.ok(carID);
+        CreatedDTO createdDTO = new CreatedDTO();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdDTO.id(carID));
     }
 
     @Override

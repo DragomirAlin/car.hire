@@ -3,8 +3,10 @@ package ro.agilehub.javacourse.car.hire.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import ro.agilehub.javacourse.car.hire.api.model.CreatedDTO;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalResponseDTO;
@@ -38,10 +40,13 @@ public class RentalController implements RentalApi {
     private JsonPatchDTORentalMapper mapperJsonPatch;
 
     @Override
-    public ResponseEntity<String> addRental(@Valid RentalDTO rentalDTO) {
+    public ResponseEntity<CreatedDTO> addRental(@Valid RentalDTO rentalDTO) {
         var rentalDO = map(rentalDTO);
         var rentalID = rentalService.addRent(rentalDO);
-        return ResponseEntity.ok(rentalID);
+        CreatedDTO createdDTO = new CreatedDTO();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdDTO.id(rentalID));
     }
 
     @Override

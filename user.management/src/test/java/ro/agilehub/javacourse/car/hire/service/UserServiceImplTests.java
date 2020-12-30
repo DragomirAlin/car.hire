@@ -1,6 +1,7 @@
 package ro.agilehub.javacourse.car.hire.service;
 
 import org.bson.types.ObjectId;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -70,12 +71,15 @@ public class UserServiceImplTests {
     @Test
     public void findById() {
         User user = new User();
-        UserDO userDO = mock(UserDO.class);
+        UserDO userDO = new UserDO();
+        Country country = new Country();
+        CountryDO countryDO = new CountryDO();
 
-        when(userDOMapper.toUserDO(any(), any())).thenReturn(userDO);
-        when(countryDOMapper.toCountryDO(any())).thenReturn(new CountryDO());
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(countryRepository.findById(any())).thenReturn(Optional.of(new Country()));
+        when(countryRepository.findById(any())).thenReturn(Optional.of(country));
+        when(countryDOMapper.toCountryDO(any())).thenReturn(countryDO);
+        when(userDOMapper.toUserDO(any(), any())).thenReturn(userDO);
+
 
         userService.findById("111f1f77bcf86cd799439155");
 

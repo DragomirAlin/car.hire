@@ -11,8 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "_id")
-@Document(collection = "user")
+@Document(collection = User.COLLECTION_NAME)
 public class User {
+    public final static String COLLECTION_NAME = "user";
 
     @Id
     @Field("_id")

@@ -5,10 +5,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ro.agilehub.javacourse.car.hire.exception.DuplicateFieldException;
+import ro.agilehub.javacourse.car.hire.exception.DuplicateKeyMongoException;
 import ro.agilehub.javacourse.car.hire.service.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.entity.Country;
 import ro.agilehub.javacourse.car.hire.entity.User;
@@ -22,6 +26,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -33,11 +38,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String addUser(UserDO userDO) {
-        var user = mapper.toUser(userDO);
+        String email = userDO.getEmail();
+        String username = userDO.getUsername();
 
-        return userRepository.save(user)
-                .get_id()
-                .toString();
+        var userEmailsList = userRepository.findAllByEmail(email);
+        if (userEmailsList.size() > 0) throw new DuplicateFieldException("email", email, User.COLLECTION_NAME);
+
+        var usernameList = userRepository.findAllByUsername(username);
+        if (usernameList.size() > 0) throw new DuplicateFieldException("username", username, User.COLLECTION_NAME);
+
+        try {
+            var user = mapper.toUser(userDO);
+            return userRepository.save(user)
+                    .get_id()
+                    .toString();
+        } catch (DuplicateKeyException e) {
+            log.info("Occured a problem while save user in database, more details: {}", e.getCause().getMessage());
+            throw new DuplicateKeyMongoException(e.getCause().getMessage());
+        }
+
     }
 
     @Override
@@ -47,6 +66,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException(id));
 
         userRepository.delete(user);
+        log.info("User with {} id was deleted.", id);
     }
 
     @Override

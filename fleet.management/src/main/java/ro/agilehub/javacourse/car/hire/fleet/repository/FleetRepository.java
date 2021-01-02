@@ -11,4 +11,5 @@ import java.util.List;
 public interface FleetRepository extends MongoRepository<Car, ObjectId> {
 
     List<Car> findAllByStatus(String status);
+    List<Car> findAllByRegistrationNumber(String registrationNumber);
 }

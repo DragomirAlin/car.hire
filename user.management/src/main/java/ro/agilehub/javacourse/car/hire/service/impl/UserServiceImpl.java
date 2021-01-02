@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
                     .get_id()
                     .toString();
         } catch (DuplicateKeyException e) {
-            log.info("Occured a problem while save user in database, more details: {}", e.getCause().getMessage());
+            log.info("Occurred a problem while save user in database, more details: {}", e.getCause().getMessage());
             throw new DuplicateKeyMongoException(e.getCause().getMessage());
         }
 

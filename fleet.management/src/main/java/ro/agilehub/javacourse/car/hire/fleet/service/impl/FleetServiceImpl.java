@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ro.agilehub.javacourse.car.hire.fleet.exception.DuplicateFieldException;
+import ro.agilehub.javacourse.car.hire.fleet.exception.DuplicateKeyMongoException;
 import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
 import ro.agilehub.javacourse.car.hire.fleet.service.mapper.CarDOMapper;
@@ -20,6 +23,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FleetServiceImpl implements FleetService {
@@ -31,8 +35,23 @@ public class FleetServiceImpl implements FleetService {
 
     @Override
     public String addCar(CarDO carDO) {
-        var car = mapper.toCar(carDO);
-        return fleetRepository.save(car).get_id().toString();
+        String registrationNumber = carDO.getRegistrationNumber();
+
+        var carList = fleetRepository.findAllByRegistrationNumber(registrationNumber);
+        if (carList.size() > 0)
+            throw new DuplicateFieldException("registrationNumber", registrationNumber, Car.COLLECTION_NAME);
+
+        try {
+            var car = mapper.toCar(carDO);
+            return fleetRepository.save(car)
+                    .get_id()
+                    .toString();
+        } catch (DuplicateKeyException e) {
+            log.info("Occurred a problem while save car in database, more details: {}", e.getCause().getMessage());
+            throw new DuplicateKeyMongoException(e.getCause().getMessage());
+        }
+
+
     }
 
     @Override

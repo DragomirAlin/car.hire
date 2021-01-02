@@ -17,6 +17,7 @@ public interface CarDOMapper {
     @Mapping(target = "mileage", source = "car.mileage")
     @Mapping(target = "fuel", source = "car.fuel")
     @Mapping(target = "carClazz", source = "car.carClazz")
+    @Mapping(target = "registrationNumber", source = "car.registrationNumber")
     @Mapping(target = "status", source = "car.status")
     CarDO toCarDO(Car car, Make make);
 
@@ -27,6 +28,7 @@ public interface CarDOMapper {
     @Mapping(target = "mileage", source = "carDO.mileage")
     @Mapping(target = "fuel", source = "carDO.fuel")
     @Mapping(target = "carClazz", source = "carDO.carClazz")
+    @Mapping(target = "registrationNumber", source = "carDO.registrationNumber")
     @Mapping(target = "status", source = "carDO.status")
     Car toCar(CarDO carDO);
 

@@ -45,11 +45,11 @@ public class UserControllerTests {
     public void addUserOk() throws Exception {
 
         UserDTO userDTO = new UserDTO()
-                .email("user@carhire.ro")
+                .email("user1@carhire.ro")
                 .driverlicensenumber(152)
                 .firstname("TestFirst")
                 .lastname("TestSecond")
-                .username("testusername")
+                .username("testusername1")
                 .password("mypass")
                 .title("mister")
                 .countryofresidence("RO");

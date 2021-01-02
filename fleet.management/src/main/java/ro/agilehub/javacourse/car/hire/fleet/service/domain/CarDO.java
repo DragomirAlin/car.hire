@@ -17,6 +17,7 @@ public class CarDO {
     private int mileage;
     private String fuel;
     private String carClazz;
+    private String registrationNumber;
     private Status status;
 
 }

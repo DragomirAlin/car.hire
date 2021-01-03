@@ -1,10 +1,8 @@
 package ro.agilehub.javacourse.car.hire.service;
 
 import org.bson.types.ObjectId;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,19 +12,14 @@ import ro.agilehub.javacourse.car.hire.entity.Country;
 import ro.agilehub.javacourse.car.hire.entity.User;
 import ro.agilehub.javacourse.car.hire.exception.DuplicateFieldException;
 import ro.agilehub.javacourse.car.hire.exception.NotFoundException;
-import ro.agilehub.javacourse.car.hire.fleet.exception.DuplicateKeyMongoException;
 import ro.agilehub.javacourse.car.hire.repository.CountryRepository;
 import ro.agilehub.javacourse.car.hire.repository.UserRepository;
-import ro.agilehub.javacourse.car.hire.service.domain.CountryDO;
 import ro.agilehub.javacourse.car.hire.service.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.service.impl.UserServiceImpl;
-import ro.agilehub.javacourse.car.hire.service.mapper.CountryDOMapper;
-import ro.agilehub.javacourse.car.hire.service.mapper.ObjectIdMapper;
 import ro.agilehub.javacourse.car.hire.service.mapper.UserDOMapper;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;

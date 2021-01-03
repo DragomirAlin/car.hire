@@ -18,6 +18,11 @@ tags:
     description: Fleet management resource endpoint
   - name: rental
     description: Rental resource endpoint
+
+security:
+  - oAuth:
+      - write
+      - read
 paths:
   /user:
     get:
@@ -527,12 +532,9 @@ components:
       properties:
         id:
           type: string
-
-
     PatchBody:
       items:
         $ref: '#/components/schemas/JsonPatchDTO'
-
     JsonPatchDTO:
       type: object
       description: A JSONPatch document as defined by RFC 6902.
@@ -560,7 +562,6 @@ components:
         from:
           type: string
           description: A string containing a JSON Pointer value.
-
     ValidationDTO:
       type: object
       properties:
@@ -577,7 +578,6 @@ components:
           type: string
         message:
           type: string
-
     UserDefaultObject:
       type: object
       properties:
@@ -607,7 +607,6 @@ components:
           type: string
           enum: [ ACTIVE, CANCELLED ]
           description: the status of the user
-
     UserResponseDTO:
       allOf:
         - $ref: '#/components/schemas/UserDefaultObject'
@@ -616,7 +615,6 @@ components:
             id:
               type: string
               description: id of the user
-
     UserDTO:
       allOf:
         - $ref: '#/components/schemas/UserDefaultObject'
@@ -626,7 +624,6 @@ components:
               type: string
               format: password
               description: password of the user
-
     CarDTO:
       type: object
       properties:
@@ -662,7 +659,6 @@ components:
             id:
               type: string
               description: id car
-
     RentalDefaultObject:
       type: object
       properties:
@@ -678,7 +674,6 @@ components:
           type: string
           enum: [ ACTIVE, CANCELLED ]
           description: the status of the
-
     RentalDTO:
       allOf:
         - $ref: '#/components/schemas/RentalDefaultObject'
@@ -690,7 +685,6 @@ components:
             car:
               type: string
               description: car id
-
     RentalResponseDTO:
       allOf:
         - $ref: '#/components/schemas/RentalDefaultObject'
@@ -703,4 +697,13 @@ components:
               $ref: '#/components/schemas/UserResponseDTO'
             car:
               $ref: '#/components/schemas/CarResponseDTO'
-
+  securitySchemes:
+    oAuth:
+      type: oauth2
+      description: This API uses OAuth2 with the password flow
+      flows:
+        password:
+          tokenUrl: /oauth/token
+          scopes:
+            read: get information from the API
+            write: use the API to make changes to the supporting data model

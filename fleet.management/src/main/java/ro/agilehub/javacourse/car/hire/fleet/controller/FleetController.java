@@ -3,6 +3,7 @@ package ro.agilehub.javacourse.car.hire.fleet.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import ro.agilehub.javacourse.car.hire.api.model.*;
 import ro.agilehub.javacourse.car.hire.api.specification.FleetApi;
@@ -17,6 +18,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@PreAuthorize("hasAuthority('MANAGER')")
 @RequiredArgsConstructor
 public class FleetController implements FleetApi {
 

@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.boot.configuration.advice;
+package ro.agilehub.javacourse.car.hire.boot.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.boot.configuration.security;
+package ro.agilehub.javacourse.car.hire.boot.security;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import org.springframework.beans.factory.annotation.Autowired;

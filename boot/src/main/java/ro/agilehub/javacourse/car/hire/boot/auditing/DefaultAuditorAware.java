@@ -1,4 +1,4 @@
-package ro.agilehub.javacourse.car.hire.boot.configuration.auditing;
+package ro.agilehub.javacourse.car.hire.boot.auditing;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;

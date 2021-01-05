@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ro.agilehub.javacourse.car.hire.exception.DuplicateFieldException;
-import ro.agilehub.javacourse.car.hire.exception.UserManagementValidationException;
+import ro.agilehub.javacourse.car.hire.user.exception.DuplicateFieldException;
+import ro.agilehub.javacourse.car.hire.user.exception.UserManagementValidationException;
 
 import java.util.NoSuchElementException;
 

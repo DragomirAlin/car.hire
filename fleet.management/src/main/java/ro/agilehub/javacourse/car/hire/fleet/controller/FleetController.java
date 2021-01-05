@@ -18,7 +18,6 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
-@PreAuthorize("hasAuthority('MANAGER')")
 @RequiredArgsConstructor
 public class FleetController implements FleetApi {
 
@@ -53,6 +52,7 @@ public class FleetController implements FleetApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<List<CarResponseDTO>> getCarsByStatus(String status) {
         var listCarsResponseDTO = fleetService.findAllByStatus(status)
                 .stream()
@@ -63,12 +63,14 @@ public class FleetController implements FleetApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<Void> removeCar(String id) {
         fleetService.removeCar(id);
         return ResponseEntity.ok().build();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<CarDTO> updateCar(String id, @Valid List<JsonPatchDTO> jsonPatchDTO) {
         return null;
     }

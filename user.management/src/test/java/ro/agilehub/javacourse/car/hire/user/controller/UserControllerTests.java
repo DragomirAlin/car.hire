@@ -41,13 +41,13 @@ public class UserControllerTests extends MockMvcSetup {
 
         UserDTO userDTO = new UserDTO()
                 .email("user1@carhire.ro")
-                .driverlicensenumber(152)
+                .driverLicense(152)
                 .firstname("TestFirst")
                 .lastname("TestSecond")
                 .username("testusername1")
                 .password("mypass")
                 .title("mister")
-                .countryofresidence("RO");
+                .country("ROU");
 
         MvcResult mvcResult = mvc.perform(post("/user")
                 .contentType("application/json")
@@ -66,8 +66,8 @@ public class UserControllerTests extends MockMvcSetup {
                 .readValue(userResult.getResponse().getContentAsString(), UserResponseDTO.class);
 
         assertEquals(userDTO.getEmail(), userResponse.getEmail());
-        assertEquals(userDTO.getCountryofresidence(), userResponse.getCountryofresidence());
-        assertEquals(userDTO.getDriverlicensenumber(), userResponse.getDriverlicensenumber());
+        assertEquals(userDTO.getCountry(), userResponse.getCountry());
+        assertEquals(userDTO.getDriverLicense(), userResponse.getDriverLicense());
         assertEquals(userDTO.getUsername(), userResponse.getUsername());
         assertEquals(userDTO.getLastname(), userResponse.getLastname());
         assertEquals(userDTO.getTitle(), userResponse.getTitle());

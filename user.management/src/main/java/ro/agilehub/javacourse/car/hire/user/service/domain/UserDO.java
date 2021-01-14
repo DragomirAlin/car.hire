@@ -19,6 +19,6 @@ public class UserDO {
     private String lastname;
     private String title;
     private CountryDO countryDO;
-    private long driverlicensenumber;
+    private long driverLicense;
     private Status status;
 }

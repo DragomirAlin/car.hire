@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
+import ro.agilehub.javacourse.car.hire.user.entity.Status;
 import ro.agilehub.javacourse.car.hire.user.service.domain.CountryDO;
 import ro.agilehub.javacourse.car.hire.user.service.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.user.service.mapper.CountryDOMapper;
@@ -19,7 +20,8 @@ public interface UserDTOMapper {
     @Mapping(target = "firstname", source = "userDO.firstname")
     @Mapping(target = "lastname", source = "userDO.lastname")
     @Mapping(target = "title", source = "userDO.title")
-    @Mapping(target = "countryofresidence", source = "userDO.countryDO.isoCode")
+    @Mapping(target = "driverLicense", source = "userDO.driverLicense")
+    @Mapping(target = "country", source = "userDO.countryDO.isoCode")
     @Mapping(target = "status", source = "userDO.status")
     UserResponseDTO toUserResponseDTO(UserDO userDO);
 
@@ -30,7 +32,7 @@ public interface UserDTOMapper {
     @Mapping(target = "lastname", source = "userDTO.lastname")
     @Mapping(target = "title", source = "userDTO.title")
     @Mapping(target = "countryDO", source = "countryDO")
-    @Mapping(target = "driverlicensenumber", source = "userDTO.driverlicensenumber")
+    @Mapping(target = "driverLicense", source = "userDTO.driverLicense")
     @Mapping(target = "status", source = "userDTO.status")
     UserDO toUserDO(UserDTO userDTO, CountryDO countryDO);
 

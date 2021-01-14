@@ -12,6 +12,7 @@ import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserDTO;
 import ro.agilehub.javacourse.car.hire.api.model.UserResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.UserApi;
+import ro.agilehub.javacourse.car.hire.user.entity.Status;
 import ro.agilehub.javacourse.car.hire.user.service.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.user.controller.mapper.JsonPatchDTOMapper;
 import ro.agilehub.javacourse.car.hire.user.controller.mapper.UserDTOMapper;
@@ -71,7 +72,7 @@ public class UserController implements UserApi {
     }
 
     private UserDO map(UserDTO userDTO) {
-        var countryDO = countryService.findByIsoCode(userDTO.getCountryofresidence());
+        var countryDO = countryService.findByIsoCode(userDTO.getCountry());
 
         return mapper.toUserDO(userDTO, countryDO);
     }

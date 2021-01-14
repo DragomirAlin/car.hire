@@ -65,13 +65,13 @@ paths:
               $ref: '#/components/schemas/UserDTO'
             example:
               email: alin@carhire.com
-              password: mypa$$w0rd!@$
+              password: pass
               username: dragomiralin
               firstname: Dragomir
               title: Employee
               lastname: Alin
-              countryofresidence: ROU
-              driverlicensenumber: 221004
+              country: ROU
+              driverLicense: 221004
               status: ACTIVE
       responses:
         '201':
@@ -593,13 +593,13 @@ components:
         lastname:
           type: string
           description: last name of the user
-        countryofresidence:
+        country:
           type: string
           description: country of residence of the user
         title:
           type: string
           description: title of the user
-        driverlicensenumber:
+        driverLicense:
           type: integer
           format: int32
           description: driver`s license number of the user

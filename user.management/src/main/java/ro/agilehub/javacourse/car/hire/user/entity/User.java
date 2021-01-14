@@ -30,9 +30,9 @@ public class User {
     private String firstname;
     private String lastname;
     private String title;
-    private String country_id;
-    private long driverlicensenumber;
-    private String status;
+    private String countryId;
+    private long driverLicense;
+    private Status status;
 
 
 }

@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+import ro.agilehub.javacourse.car.hire.user.entity.Status;
 import ro.agilehub.javacourse.car.hire.user.exception.DuplicateFieldException;
 import ro.agilehub.javacourse.car.hire.user.exception.DuplicateKeyMongoException;
+import ro.agilehub.javacourse.car.hire.user.service.domain.CountryDO;
 import ro.agilehub.javacourse.car.hire.user.service.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.user.entity.Country;
 import ro.agilehub.javacourse.car.hire.user.entity.User;
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
         if (usernameList.size() > 0) throw new DuplicateFieldException("username", username, User.COLLECTION_NAME);
 
         try {
-            var user = mapper.toUser(userDO);
+            var user = mapper.toUser(userDO, CountryDO.builder().build());
             return userRepository.save(user)
                     .get_id()
                     .toString();
@@ -103,7 +105,7 @@ public class UserServiceImpl implements UserService {
 
     private UserDO map(User user) {
         Country country = countryRepository
-                .findById(new ObjectId(user.getCountry_id()))
+                .findById(new ObjectId(user.getCountryId()))
                 .orElse(null);
 
         return mapper.toUserDO(user, country);

@@ -7,7 +7,7 @@ import ro.agilehub.javacourse.car.hire.fleet.service.model.JsonPatch;
 
 import java.util.List;
 
-public interface FleetService {
+public interface CarService {
 
     String addCar(CarDO carDO);
     void removeCar(String id);

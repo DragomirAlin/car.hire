@@ -35,7 +35,6 @@ public class UserController implements UserApi {
     private final UserDTOMapper mapper;
     private final JsonPatchDTOMapper jsonPatchDTOMapper;
 
-    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<CreatedDTO> addUser(@Valid UserDTO userDTO) {
         var userDO = map(userDTO);
@@ -46,7 +45,6 @@ public class UserController implements UserApi {
                 .body(createdDTO.id(userID));
     }
 
-    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<UserResponseDTO> getUser(String id) {
         var userResponseDTO = mapper
@@ -55,7 +53,6 @@ public class UserController implements UserApi {
         return ResponseEntity.ok(userResponseDTO);
     }
 
-    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<List<UserResponseDTO>> getUsers() {
         var listUsersResponseDTO = userService.findAll()
@@ -66,7 +63,6 @@ public class UserController implements UserApi {
         return ResponseEntity.ok(listUsersResponseDTO);
     }
 
-    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<Void> removeUser(String id) {
         userService.removeUser(id);
@@ -74,7 +70,6 @@ public class UserController implements UserApi {
     }
 
 
-    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<Void> updateUser(String id, @Valid List<JsonPatchDTO> jsonPatch)  {
         List<JsonPatch> jsonPatchList = jsonPatch.stream().map(jsonPatchDTOMapper::toJsonPatch).collect(toList());

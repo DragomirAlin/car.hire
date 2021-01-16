@@ -27,10 +27,10 @@ public interface UserDOMapper {
     @Mapping(target = "username", source = "userDO.username")
     @Mapping(target = "firstname", source = "userDO.firstname")
     @Mapping(target = "lastname", source = "userDO.lastname")
-    @Mapping(target = "countryId", source = "countryDO.id")
+    @Mapping(target = "countryId", source = "userDO.countryDO.id")
     @Mapping(target = "driverLicense", source = "userDO.driverLicense")
     @Mapping(target = "status", source = "userDO.status")
     @Mapping(target = "title", source = "userDO.title")
-    User toUser(UserDO userDO, CountryDO countryDO);
+    User toUser(UserDO userDO);
 
 }

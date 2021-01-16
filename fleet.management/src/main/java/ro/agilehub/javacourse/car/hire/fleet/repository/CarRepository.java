@@ -8,7 +8,7 @@ import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
 import java.util.List;
 
 @Repository
-public interface FleetRepository extends MongoRepository<Car, ObjectId> {
+public interface CarRepository extends MongoRepository<Car, ObjectId> {
 
     List<Car> findAllByStatus(String status);
     List<Car> findAllByRegistrationNumber(String registrationNumber);

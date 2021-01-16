@@ -15,9 +15,9 @@ import ro.agilehub.javacourse.car.hire.fleet.exception.DuplicateKeyMongoExceptio
 import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.entity.Car;
 import ro.agilehub.javacourse.car.hire.fleet.service.mapper.CarDOMapper;
-import ro.agilehub.javacourse.car.hire.fleet.repository.FleetRepository;
+import ro.agilehub.javacourse.car.hire.fleet.repository.CarRepository;
 import ro.agilehub.javacourse.car.hire.fleet.repository.MakeRepository;
-import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
+import ro.agilehub.javacourse.car.hire.fleet.service.CarService;
 
 import java.util.List;
 
@@ -26,9 +26,9 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FleetServiceImpl implements FleetService {
+public class CarServiceImpl implements CarService {
 
-    private final FleetRepository fleetRepository;
+    private final CarRepository carRepository;
     private final MakeRepository makeRepository;
     private final CarDOMapper mapper;
     private final ObjectMapper objectMapper;
@@ -37,13 +37,13 @@ public class FleetServiceImpl implements FleetService {
     public String addCar(CarDO carDO) {
         String registrationNumber = carDO.getRegistrationNumber();
 
-        var carList = fleetRepository.findAllByRegistrationNumber(registrationNumber);
+        var carList = carRepository.findAllByRegistrationNumber(registrationNumber);
         if (carList.size() > 0)
             throw new DuplicateFieldException("registrationNumber", registrationNumber, Car.COLLECTION_NAME);
 
         try {
             var car = mapper.toCar(carDO);
-            return fleetRepository.save(car)
+            return carRepository.save(car)
                     .get_id()
                     .toString();
         } catch (DuplicateKeyException e) {
@@ -56,16 +56,16 @@ public class FleetServiceImpl implements FleetService {
 
     @Override
     public void removeCar(String id) {
-        var car = fleetRepository
+        var car = carRepository
                 .findById(new ObjectId(id))
                 .orElseThrow();
 
-        fleetRepository.delete(car);
+        carRepository.delete(car);
     }
 
     @Override
     public CarDO findById(String id) {
-        return fleetRepository
+        return carRepository
                 .findById(new ObjectId(id))
                 .map(this::map)
                 .orElseThrow();
@@ -73,7 +73,7 @@ public class FleetServiceImpl implements FleetService {
 
     @Override
     public List<CarDO> findAll() {
-        return fleetRepository
+        return carRepository
                 .findAll()
                 .stream()
                 .map(this::map)
@@ -83,12 +83,12 @@ public class FleetServiceImpl implements FleetService {
     @Override
     public CarDO updateCar(String id, List<ro.agilehub.javacourse.car.hire.fleet.service.model.JsonPatch> jsonPatch) throws JsonPatchException, JsonProcessingException {
         JsonPatch patch = objectMapper.convertValue(jsonPatch, JsonPatch.class);
-        var car = fleetRepository.findById(new ObjectId(id)).orElseThrow();
+        var car = carRepository.findById(new ObjectId(id)).orElseThrow();
 
         var carPatched = applyPatchToUser(patch, car);
         carPatched.set_id(car.get_id());
 
-        return map(fleetRepository.save(carPatched));
+        return map(carRepository.save(carPatched));
     }
 
     private Car applyPatchToUser(com.github.fge.jsonpatch.JsonPatch patch, Car targetCar) throws JsonPatchException, JsonProcessingException {
@@ -99,7 +99,7 @@ public class FleetServiceImpl implements FleetService {
 
     @Override
     public List<CarDO> findAllByStatus(String status) {
-        return fleetRepository
+        return carRepository
                 .findAllByStatus(status)
                 .stream()
                 .map(this::map)

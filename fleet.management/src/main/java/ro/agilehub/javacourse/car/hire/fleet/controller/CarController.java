@@ -9,7 +9,7 @@ import ro.agilehub.javacourse.car.hire.api.model.*;
 import ro.agilehub.javacourse.car.hire.api.specification.FleetApi;
 import ro.agilehub.javacourse.car.hire.fleet.service.domain.CarDO;
 import ro.agilehub.javacourse.car.hire.fleet.controller.mapper.CarDTOMapper;
-import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
+import ro.agilehub.javacourse.car.hire.fleet.service.CarService;
 import ro.agilehub.javacourse.car.hire.fleet.service.MakeService;
 
 import javax.validation.Valid;
@@ -19,16 +19,16 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequiredArgsConstructor
-public class FleetController implements FleetApi {
+public class CarController implements FleetApi {
 
-    private final FleetService fleetService;
+    private final CarService carService;
     private final MakeService makeService;
     private final CarDTOMapper mapper;
 
     @Override
     public ResponseEntity<CreatedDTO>addCar(@Valid CarDTO carDTO) {
         var carDO = map(carDTO);
-        var carID = fleetService.addCar(carDO);
+        var carID = carService.addCar(carDO);
         CreatedDTO createdDTO = new CreatedDTO();
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -37,13 +37,13 @@ public class FleetController implements FleetApi {
 
     @Override
     public ResponseEntity<CarResponseDTO> getCar(String id) {
-        var carResponseDTO = mapper.toCarResponseDTO(fleetService.findById(id));
+        var carResponseDTO = mapper.toCarResponseDTO(carService.findById(id));
         return ResponseEntity.ok(carResponseDTO);
     }
 
     @Override
     public ResponseEntity<List<CarResponseDTO>> getCars() {
-        var listCarsResponseDTO = fleetService.findAll()
+        var listCarsResponseDTO = carService.findAll()
                 .stream()
                 .map(mapper::toCarResponseDTO)
                 .collect(toList());
@@ -52,9 +52,8 @@ public class FleetController implements FleetApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<List<CarResponseDTO>> getCarsByStatus(String status) {
-        var listCarsResponseDTO = fleetService.findAllByStatus(status)
+        var listCarsResponseDTO = carService.findAllByStatus(status)
                 .stream()
                 .map(mapper::toCarResponseDTO)
                 .collect(toList());
@@ -63,14 +62,12 @@ public class FleetController implements FleetApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<Void> removeCar(String id) {
-        fleetService.removeCar(id);
+        carService.removeCar(id);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<CarDTO> updateCar(String id, @Valid List<JsonPatchDTO> jsonPatchDTO) {
         return null;
     }

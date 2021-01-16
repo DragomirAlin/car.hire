@@ -5,14 +5,13 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import ro.agilehub.javacourse.car.hire.api.model.CreatedDTO;
 import ro.agilehub.javacourse.car.hire.api.model.JsonPatchDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalDTO;
 import ro.agilehub.javacourse.car.hire.api.model.RentalResponseDTO;
 import ro.agilehub.javacourse.car.hire.api.specification.RentalApi;
-import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
+import ro.agilehub.javacourse.car.hire.fleet.service.CarService;
 import ro.agilehub.javacourse.car.hire.rental.controller.mapper.JsonPatchDTORentalMapper;
 import ro.agilehub.javacourse.car.hire.rental.controller.mapper.RentalDTOMapper;
 import ro.agilehub.javacourse.car.hire.rental.service.RentalService;
@@ -32,7 +31,7 @@ public class RentalController implements RentalApi {
     private final RentalService rentalService;
     private final RentalDTOMapper mapper;
     private final UserService userService;
-    private final FleetService fleetService;
+    private final CarService carService;
     private final JsonPatchDTORentalMapper mapperJsonPatch;
 
     @Override
@@ -84,7 +83,7 @@ public class RentalController implements RentalApi {
     }
 
     private RentalDO map(RentalDTO rentalDTO) {
-        var carDO = fleetService.findById(rentalDTO.getCar());
+        var carDO = carService.findById(rentalDTO.getCar());
         var userDO = userService.findById(rentalDTO.getUser());
 
         return mapper.toRentalDO(rentalDTO, carDO, userDO);

@@ -31,7 +31,6 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final CountryRepository countryRepository;
     private final UserDOMapper mapper;
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
         if (usernameList.size() > 0) throw new DuplicateFieldException("username", username, User.COLLECTION_NAME);
 
         try {
-            var user = mapper.toUser(userDO, CountryDO.builder().build());
+            var user = mapper.toUser(userDO);
             return userRepository.save(user)
                     .get_id()
                     .toString();

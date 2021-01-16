@@ -350,11 +350,13 @@ paths:
             schema:
               $ref: '#/components/schemas/CarDTO'
             example:
-              make: test
+              make: OFF-ROAD
               model: Dacia
               year: 2019
               mileage: 120031
               fuel: Diesel
+              carClazz: car
+              registrationNumber: BV12
               status: ACTIVE
       responses:
         '201':

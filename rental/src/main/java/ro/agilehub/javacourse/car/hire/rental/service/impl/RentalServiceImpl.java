@@ -7,7 +7,7 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
-import ro.agilehub.javacourse.car.hire.fleet.service.FleetService;
+import ro.agilehub.javacourse.car.hire.fleet.service.CarService;
 import ro.agilehub.javacourse.car.hire.rental.service.domain.RentalDO;
 import ro.agilehub.javacourse.car.hire.rental.service.model.JsonPatch;
 import ro.agilehub.javacourse.car.hire.rental.entity.Rental;
@@ -27,7 +27,7 @@ public class RentalServiceImpl implements RentalService {
     private final RentalRepository rentalRepository;
     private final RentalDOMapper mapper;
     private final UserService userService;
-    private final FleetService fleetService;
+    private final CarService carService;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -84,7 +84,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     private RentalDO map(Rental rental) {
-        var carDO = fleetService.findById(rental.getCar_id());
+        var carDO = carService.findById(rental.getCar_id());
         var userDO = userService.findById(rental.getUser_id());
 
         return mapper.toRentalDO(rental, carDO, userDO);

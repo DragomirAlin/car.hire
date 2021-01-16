@@ -38,8 +38,10 @@ public class CarServiceImpl implements CarService {
         String registrationNumber = carDO.getRegistrationNumber();
 
         var carList = carRepository.findAllByRegistrationNumber(registrationNumber);
-        if (carList.size() > 0)
+        if (carList.size() > 0) {
+            log.error("A car with {} registration number exists already.", registrationNumber);
             throw new DuplicateFieldException("registrationNumber", registrationNumber, Car.COLLECTION_NAME);
+        }
 
         try {
             var car = mapper.toCar(carDO);
@@ -47,11 +49,9 @@ public class CarServiceImpl implements CarService {
                     .get_id()
                     .toString();
         } catch (DuplicateKeyException e) {
-            log.info("Occurred a problem while save car in database, more details: {}", e.getCause().getMessage());
+            log.error("Occurred a problem while save car in database, more details: {}", e.getCause().getMessage());
             throw new DuplicateKeyMongoException(e.getCause().getMessage());
         }
-
-
     }
 
     @Override
@@ -61,6 +61,7 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow();
 
         carRepository.delete(car);
+        log.info("The car with {} id was deleted.", id);
     }
 
     @Override
@@ -88,6 +89,7 @@ public class CarServiceImpl implements CarService {
         var carPatched = applyPatchToUser(patch, car);
         carPatched.set_id(car.get_id());
 
+        log.info("The car has just been updated with id {}", carPatched.get_id());
         return map(carRepository.save(carPatched));
     }
 

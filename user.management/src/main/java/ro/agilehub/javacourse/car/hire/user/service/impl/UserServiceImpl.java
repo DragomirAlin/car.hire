@@ -49,11 +49,12 @@ public class UserServiceImpl implements UserService {
 
         try {
             var user = mapper.toUser(userDO);
+            log.info("The user with email {} has just been created", user.getEmail());
             return userRepository.save(user)
                     .get_id()
                     .toString();
         } catch (DuplicateKeyException e) {
-            log.info("Occurred a problem while save user in database, more details: {}", e.getCause().getMessage());
+            log.error("Occurred a problem while save user in database, more details: {}", e.getCause().getMessage());
             throw new DuplicateKeyMongoException(e.getCause().getMessage());
         }
 
@@ -93,6 +94,7 @@ public class UserServiceImpl implements UserService {
         var userPatched = applyPatchToUser(patch, user);
         userPatched.set_id(user.get_id());
 
+        log.info("The user has just been updated with id {}", userPatched.get_id());
         return map(userRepository.save(userPatched));
     }
 

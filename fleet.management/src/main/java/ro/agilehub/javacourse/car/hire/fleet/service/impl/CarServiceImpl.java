@@ -42,11 +42,12 @@ public class CarServiceImpl implements CarService {
             log.error("A car with {} registration number exists already.", registrationNumber);
             throw new DuplicateFieldException("registrationNumber", registrationNumber, Car.COLLECTION_NAME);
         }
-
         try {
             var car = mapper.toCar(carDO);
-            return carRepository.save(car)
-                    .get_id()
+            var carCreated = carRepository.save(car);
+
+            log.info("The ca with id {} has just been created", carCreated.get_id().toString());
+            return carCreated.get_id()
                     .toString();
         } catch (DuplicateKeyException e) {
             log.error("Occurred a problem while save car in database, more details: {}", e.getCause().getMessage());

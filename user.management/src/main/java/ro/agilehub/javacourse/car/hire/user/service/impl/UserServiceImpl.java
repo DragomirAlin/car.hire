@@ -42,19 +42,27 @@ public class UserServiceImpl implements UserService {
         String username = userDO.getUsername();
 
         var userEmailsList = userRepository.findAllByEmail(email);
-        if (userEmailsList.size() > 0) throw new DuplicateFieldException("email", email, User.COLLECTION_NAME);
+
+        if (userEmailsList.size() > 0) {
+            log.error("An user with {} email exists already!", email);
+            throw new DuplicateFieldException("email", email, User.COLLECTION_NAME);
+        }
 
         var usernameList = userRepository.findAllByUsername(username);
-        if (usernameList.size() > 0) throw new DuplicateFieldException("username", username, User.COLLECTION_NAME);
+        if (usernameList.size() > 0) {
+            log.error("An user with {} username exists already!", username);
+            throw new DuplicateFieldException("username", username, User.COLLECTION_NAME);
+        }
 
         try {
             var user = mapper.toUser(userDO);
-            log.info("The user with email {} has just been created", user.getEmail());
-            return userRepository.save(user)
-                    .get_id()
+            var userCreated = userRepository.save(user);
+
+            log.info("The user with id {} has just been created.", user.get_id().toString());
+            return userCreated.get_id()
                     .toString();
         } catch (DuplicateKeyException e) {
-            log.error("Occurred a problem while save user in database, more details: {}", e.getCause().getMessage());
+            log.error("Occurred a problem while save user in database, more details: {}!", e.getCause().getMessage());
             throw new DuplicateKeyMongoException(e.getCause().getMessage());
         }
 
@@ -94,7 +102,7 @@ public class UserServiceImpl implements UserService {
         var userPatched = applyPatchToUser(patch, user);
         userPatched.set_id(user.get_id());
 
-        log.info("The user has just been updated with id {}", userPatched.get_id());
+        log.info("The user has just been updated with id {}.", userPatched.get_id());
         return map(userRepository.save(userPatched));
     }
 

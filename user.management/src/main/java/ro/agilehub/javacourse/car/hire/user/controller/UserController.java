@@ -28,15 +28,14 @@ import static java.util.stream.Collectors.toList;
 
 
 @RestController
-@PreAuthorize("hasAuthority('MANAGER')")
 @RequiredArgsConstructor
 public class UserController implements UserApi {
-
     private final UserService userService;
     private final CountryService countryService;
     private final UserDTOMapper mapper;
     private final JsonPatchDTOMapper jsonPatchDTOMapper;
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<CreatedDTO> addUser(@Valid UserDTO userDTO) {
         var userDO = map(userDTO);
@@ -47,6 +46,7 @@ public class UserController implements UserApi {
                 .body(createdDTO.id(userID));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<UserResponseDTO> getUser(String id) {
         var userResponseDTO = mapper
@@ -55,6 +55,7 @@ public class UserController implements UserApi {
         return ResponseEntity.ok(userResponseDTO);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<List<UserResponseDTO>> getUsers() {
         var listUsersResponseDTO = userService.findAll()
@@ -65,18 +66,16 @@ public class UserController implements UserApi {
         return ResponseEntity.ok(listUsersResponseDTO);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Override
     public ResponseEntity<Void> removeUser(String id) {
         userService.removeUser(id);
         return ResponseEntity.ok().build();
     }
 
-    private UserDO map(UserDTO userDTO) {
-        var countryDO = countryService.findByIsoCode(userDTO.getCountry());
 
-        return mapper.toUserDO(userDTO, countryDO);
-    }
-
+    @PreAuthorize("hasAuthority('MANAGER')")
+    @Override
     public ResponseEntity<Void> updateUser(String id, @Valid List<JsonPatchDTO> jsonPatch)  {
         List<JsonPatch> jsonPatchList = jsonPatch.stream().map(jsonPatchDTOMapper::toJsonPatch).collect(toList());
         UserDO userDO = null;
@@ -90,4 +89,11 @@ public class UserController implements UserApi {
 
         return ResponseEntity.ok().build();
     }
+
+    private UserDO map(UserDTO userDTO) {
+        var countryDO = countryService.findByIsoCode(userDTO.getCountry());
+
+        return mapper.toUserDO(userDTO, countryDO);
+    }
+
 }

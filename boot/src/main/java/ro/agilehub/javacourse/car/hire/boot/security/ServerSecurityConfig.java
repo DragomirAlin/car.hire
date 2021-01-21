@@ -3,6 +3,7 @@ package ro.agilehub.javacourse.car.hire.boot.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -26,7 +28,7 @@ import java.util.Collection;
  * This is the base class for configuring security related information for your application
  */
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
@@ -72,7 +74,11 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.cors(httpSecurityCorsConfigurer -> {
+            // this configures the default CORS policy
+            httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
+        })
+                .authorizeRequests()
                 // add here the resources which you need to make public, like static content or authorization links
                 .antMatchers("/swagger-ui.html", "/swagger-ui/*", "/v3/api-docs/*",
                         "/api.yaml", "/oauth/*", "/.well-known/*").permitAll()
@@ -89,7 +95,10 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 // it also means you'll have to have the property below specified, as it's manadatory
                 // under the latest Spring Security version to have a jwks URI configured
                 // spring.security.oauth2.resourceserver.jwt.jwk-set-uri
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(getJwtAuthenticationConverter()));
+                .jwt(jwt -> jwt.jwtAuthenticationConverter(getJwtAuthenticationConverter()))
+                .and()
+                .exceptionHandling().authenticationEntryPoint(
+                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
 
     private Converter<Jwt, AbstractAuthenticationToken> getJwtAuthenticationConverter() {

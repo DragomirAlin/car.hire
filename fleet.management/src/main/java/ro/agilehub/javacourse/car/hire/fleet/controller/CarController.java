@@ -18,6 +18,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@PreAuthorize("hasAuthority('MANAGER')")
 @RequiredArgsConstructor
 public class CarController implements FleetApi {
 

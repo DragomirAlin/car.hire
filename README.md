@@ -13,3 +13,5 @@ In this course have been discussed the next topics:
 7. Testing all layers. Units tests, application tests.
 8. Secure application with Spring Security and OAuth. Mongodb auditing.
 9. Microservices and monoliths
+10. Hexagonal architecture
+11. TestContainers

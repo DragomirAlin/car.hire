@@ -1,28 +1,37 @@
 package ro.agilehub.javacourse.car.hire.user.service;
 
-import org.bson.types.ObjectId;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatchException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.test.context.ActiveProfiles;
-import ro.agilehub.javacourse.car.hire.BaseTestSetup;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 import ro.agilehub.javacourse.car.hire.user.entity.Country;
 import ro.agilehub.javacourse.car.hire.user.entity.Status;
-import ro.agilehub.javacourse.car.hire.user.entity.User;
-import ro.agilehub.javacourse.car.hire.user.exception.DuplicateFieldException;
 import ro.agilehub.javacourse.car.hire.user.exception.HttpError;
 import ro.agilehub.javacourse.car.hire.user.service.domain.CountryDO;
 import ro.agilehub.javacourse.car.hire.user.service.domain.UserDO;
+import ro.agilehub.javacourse.car.hire.user.service.model.JsonPatch;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("test")
-public class UserServiceTests extends BaseTestSetup {
+public class UserServiceTests {
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    @Autowired
+    private UserService userService;
 
     private static final String OBJECT_ID = "555f1f77bcf86cd799439011";
     private CountryDO countryDO;
@@ -36,6 +45,11 @@ public class UserServiceTests extends BaseTestSetup {
 
         assertNotNull(countryDO);
         this.countryDO = countryDO;
+    }
+
+    @After
+    public void dropDatabase() {
+        mongoTemplate.getDb().drop();
     }
 
     @Test
@@ -58,77 +72,116 @@ public class UserServiceTests extends BaseTestSetup {
 
     @Test
     public void test_addUser_when_UsernameExists() {
-        UserDO userDO = new UserDO();
-        userDO.setEmail("test@carhire.ro");
+        userService.addUser(UserDO.builder()
+                .username("user")
+                .email("user43@carhire.ro")
+                .build());
 
-        DuplicateFieldException exception = assertThrows(
-                DuplicateFieldException.class,
+        UserDO userDO = UserDO.builder()
+                .email("user543@carhire.ro")
+                .username("user")
+                .build();
+
+        var exception = assertThrows(
+                HttpError.class,
                 () -> userService.addUser(userDO));
 
-        assertEquals("test@carhire.ro", exception.getInput());
-        assertEquals("email", exception.getFieldName());
+        assertEquals("An user with user username exists already!", exception.getMessage());
     }
 
     @Test
     public void test_addUser_whenEmailExists() {
-        UserDO userDO = new UserDO();
-        userDO.setUsername("user");
+        userService.addUser(UserDO.builder()
+                .username("user2")
+                .email("user@carhire.ro")
+                .build());
 
-        DuplicateFieldException exception = assertThrows(
-                DuplicateFieldException.class,
+        UserDO userDO = UserDO.builder()
+                .username("user3")
+                .email("user@carhire.ro")
+                .build();
+
+        var exception = assertThrows(
+                HttpError.class,
                 () -> userService.addUser(userDO));
 
-        assertEquals("user", exception.getInput());
-        assertEquals("username", exception.getFieldName());
-    }
-
-    @Test
-    public void test_addUser_whenOccurredDuplicateKeyException() {
-
-        UserDO userDO = mock(UserDO.class);
-        User user = mock(User.class);
-        DuplicateKeyException duplicateKeyException = mock(DuplicateKeyException.class);
-        RuntimeException causeException = mock(RuntimeException.class);
-
-        assertThrows(DuplicateKeyException.class,
-                () -> userService.addUser(userDO));
+        assertEquals("An user with user@carhire.ro email exists already!", exception.getMessage());
     }
 
     @Test
     public void test_removeUser_whenUserExists() {
-        User user = User.builder()
-                ._id(new ObjectId(OBJECT_ID))
-                .build();
+        var userId = userService.addUser(UserDO.builder()
+                .username("user2")
+                .email("user@carhire.ro")
+                .countryDO(countryDO)
+                .build());
 
+        var userDO = userService.findById(userId);
 
-        userService.removeUser(OBJECT_ID);
-        verify(userRepository, times(1)).delete(user);
+        assertNotNull(userDO);
+
+        userService.removeUser(userId);
+
+        var exception = assertThrows(HttpError.class,
+                () -> userService.findById(userId)
+        );
+
+        assertEquals(String.format("User is not found with ID : '%s'", userId), exception.getMessage());
+
     }
 
     @Test
     public void test_removeUser_whenUserNotExists() {
-        assertThrows(HttpError.class,
+        var exception = assertThrows(HttpError.class,
                 () -> userService.removeUser(OBJECT_ID));
+
+        assertEquals("User is not found with ID : '" + OBJECT_ID + "'", exception.getMessage());
     }
-
-    @Test
-    public void test_getUser_whenUserExists() {
-
-
-        UserDO userResult = userService.findById(OBJECT_ID);
-
-        assertEquals("testuser", userResult.getUsername());
-    }
-
 
     @Test
     public void findAll() {
+        userService.addUser(UserDO.builder()
+                .username("user64")
+                .email("user34@carhire.ro")
+                .countryDO(countryDO)
+                .build());
+
+        userService.addUser(UserDO.builder()
+                .username("user36")
+                .email("user43@carhire.ro")
+                .countryDO(countryDO)
+                .build());
+
+        userService.addUser(UserDO.builder()
+                .username("user44")
+                .email("user33@carhire.ro")
+                .countryDO(countryDO)
+                .build());
+
+        var usersDO = userService.findAll();
+
+        assertEquals(3, usersDO.size());
 
     }
 
     @Test
-    public void updateUser() {
+    public void updateUser() throws JsonPatchException, JsonProcessingException {
+        var userId = userService.addUser(UserDO.builder()
+                .username("user64")
+                .email("user34@carhire.ro")
+                .countryDO(countryDO)
+                .status(Status.ACTIVE)
+                .build());
 
+        List<JsonPatch> patchList = List.of(JsonPatch.builder()
+                .op("replace")
+                .path("/status")
+                .value("CANCELLED")
+                .build());
+
+        var userDOUpdated = userService.updateUser(userId, patchList);
+
+        assertEquals(Status.CANCELLED, userDOUpdated.getStatus());
     }
 
 

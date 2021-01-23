@@ -44,13 +44,13 @@ public class UserServiceImpl implements UserService {
 
         if (userEmailsList.size() > 0) {
             log.error("An user with {} email exists already!", email);
-            throw new DuplicateFieldException("email", email, User.COLLECTION_NAME);
+            throw HttpError.badRequest(String.format("An user with %s email exists already!", email));
         }
 
         var usernameList = userRepository.findAllByUsername(username);
         if (usernameList.size() > 0) {
             log.error("An user with {} username exists already!", username);
-            throw new DuplicateFieldException("username", username, User.COLLECTION_NAME);
+            throw HttpError.badRequest(String.format("An user with %s username exists already!", username));
         }
 
         try {
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
                     .toString();
         } catch (DuplicateKeyException e) {
             log.error("Occurred a problem while save user in database, more details: {}!", e.getCause().getMessage());
-            throw new DuplicateKeyMongoException(e.getCause().getMessage());
+            throw HttpError.badRequest(String.format("Occurred a problem while save %s user in database.", userDO.getId()));
         }
 
     }
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findById(new ObjectId(id))
                 .map(this::map)
-                .orElseThrow(() ->HttpError.notFound(String.format("User is not found with ID : '%s'", id)));
+                .orElseThrow(() -> HttpError.notFound(String.format("User is not found with ID : '%s'", id)));
     }
 
     @Override

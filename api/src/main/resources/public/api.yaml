@@ -548,13 +548,6 @@ components:
         op:
           type: string
           description: The operation to be performed
-          enum:
-            - 'add'
-            - 'remove'
-            - 'replace'
-            - 'move'
-            - 'copy'
-            - 'test'
         path:
           type: string
           description: A JSON-Pointer

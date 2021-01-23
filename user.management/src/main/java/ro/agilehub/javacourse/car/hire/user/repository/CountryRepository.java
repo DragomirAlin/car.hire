@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface CountryRepository extends MongoRepository<Country, ObjectId> {
 
     Optional<Country> findByIsoCode(String isoCode);
+
 }

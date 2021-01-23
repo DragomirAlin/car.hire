@@ -13,11 +13,10 @@ import org.springframework.stereotype.Service;
 import ro.agilehub.javacourse.car.hire.user.entity.Status;
 import ro.agilehub.javacourse.car.hire.user.exception.DuplicateFieldException;
 import ro.agilehub.javacourse.car.hire.user.exception.DuplicateKeyMongoException;
-import ro.agilehub.javacourse.car.hire.user.service.domain.CountryDO;
+import ro.agilehub.javacourse.car.hire.user.exception.HttpError;
 import ro.agilehub.javacourse.car.hire.user.service.domain.UserDO;
 import ro.agilehub.javacourse.car.hire.user.entity.Country;
 import ro.agilehub.javacourse.car.hire.user.entity.User;
-import ro.agilehub.javacourse.car.hire.user.exception.NotFoundException;
 import ro.agilehub.javacourse.car.hire.user.repository.CountryRepository;
 import ro.agilehub.javacourse.car.hire.user.repository.UserRepository;
 import ro.agilehub.javacourse.car.hire.user.service.mapper.UserDOMapper;
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
     public void removeUser(String id) {
         var user = userRepository
                 .findById(new ObjectId(id))
-                .orElseThrow(() -> new NotFoundException(id));
+                .orElseThrow(() -> HttpError.notFound(String.format("User is not found with ID : '%s'", id)));
 
         userRepository.delete(user);
         log.info("User with {} id was deleted.", id);
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findById(new ObjectId(id))
                 .map(this::map)
-                .orElseThrow(() -> new NotFoundException(id));
+                .orElseThrow(() ->HttpError.notFound(String.format("User is not found with ID : '%s'", id)));
     }
 
     @Override

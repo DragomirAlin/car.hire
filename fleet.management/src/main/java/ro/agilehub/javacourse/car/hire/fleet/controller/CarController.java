@@ -27,7 +27,7 @@ public class CarController implements FleetApi {
     private final CarDTOMapper mapper;
 
     @Override
-    public ResponseEntity<CreatedDTO>addCar(@Valid CarDTO carDTO) {
+    public ResponseEntity<CreatedDTO> addCar(@Valid CarDTO carDTO) {
         var carDO = map(carDTO);
         var carID = carService.addCar(carDO);
         CreatedDTO createdDTO = new CreatedDTO();
@@ -78,5 +78,4 @@ public class CarController implements FleetApi {
 
         return mapper.toCarDO(carDTO, makeDO);
     }
-
 }

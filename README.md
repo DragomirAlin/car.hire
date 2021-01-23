@@ -1,6 +1,6 @@
-# Car Hire
+# Car Hire Project
 
-## This is a project for AgileHub Java course by Vlad Carcu.
+## This is a project for [AgileHub](https://agilehub.ro/) Java course by Vlad Cârcu.
 
 In this course have been discussed the next topics:
 
@@ -15,3 +15,7 @@ In this course have been discussed the next topics:
 9. Microservices and monoliths
 10. Hexagonal architecture
 11. TestContainers
+
+Rental Microservice
+[(go to microservice)](https://github.com/DragomirAlin/car.hire.rental)
+
